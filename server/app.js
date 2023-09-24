@@ -1,6 +1,7 @@
 import express from 'express'
 import 'dotenv/config'
 import mongoose from 'mongoose'
+import authRouter from "./routes/userRotue.js"
 const app = express()
 
 const PORT = 5000
@@ -24,14 +25,13 @@ db.on('error', (err) => {
 })
 
 db.once('open', () => {
-    console.log('Connected to MongoDB');
-
-    app.get('/', (req, res) => {
-        res.status(200).send('Hello, World!');
-    });
-
-        
-    app.listen(PORT, () => {
-        console.log('app running at port ', PORT)
-    })
+    console.log('Connected to MongoDB');    
 });
+
+app.use('/user',authRouter)
+
+
+    
+app.listen(PORT, () => {
+    console.log('app running at port ', PORT)
+})
