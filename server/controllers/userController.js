@@ -6,8 +6,10 @@ export const loginUser = async(req,res) => {
     const {loginField, password} = req.body
 
     try{
-        const existingUser = await User.findOne({ email: loginField })
-        console.log("exisiting user is ", existingUser)
+
+        const existingUser = await User.findOne({
+            $or: [{ userName: loginField }, { email: loginField }],
+        });
 
         if(!existingUser){
             return res.status(400).json({success: false, message: "User not found, Kindly register"})
