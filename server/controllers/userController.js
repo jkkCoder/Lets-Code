@@ -22,6 +22,7 @@ export const loginUser = async(req,res) => {
                 jwtToken: token,
                 userName: existingUser?.userName,
                 email: existingUser?.email,
+                isAdmin: existingUser?.isAdmin,
                 fullname: existingUser?.fullName
             }})
         }
@@ -62,6 +63,7 @@ export const registerUser = async (req,res) => {
             jwtToken: token,
             userName: user?.userName,
             email: user?.email,
+            isAdmin: existingUser?.isAdmin,
             fullname: user?.fullName
         }})
 
