@@ -1,7 +1,8 @@
 import express from 'express'
 import 'dotenv/config'
 import mongoose from 'mongoose'
-import authRouter from "./routes/userRotue.js"
+import authRouter from "./routes/userRoute.js"
+import questionRouter from "./routes/questionRoute.js"
 const app = express()
 
 const PORT = 5000
@@ -29,7 +30,7 @@ db.once('open', () => {
 });
 
 app.use('/user',authRouter)
-
+app.use('/question', questionRouter)
 
     
 app.listen(PORT, () => {

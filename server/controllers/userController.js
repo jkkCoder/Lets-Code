@@ -2,6 +2,8 @@ import User from "../models/UserModel.js"
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
 
+
+// POST     /user/login     PUBLIC API      
 export const loginUser = async(req,res) => {
     const {loginField, password} = req.body
 
@@ -18,7 +20,7 @@ export const loginUser = async(req,res) => {
         if(await bcrypt.compare(password, existingUser?.password)){
             //generate jwt token
             const token = jwt.sign({id: existingUser}, process.env.JWT_SECRET)
-            return res.status(200).json({success: true, message: "user Log in successful", payload:{
+            return res.status(201).json({success: true, message: "user Log in successful", payload:{
                 jwtToken: token,
                 userName: existingUser?.userName,
                 email: existingUser?.email,
@@ -33,6 +35,7 @@ export const loginUser = async(req,res) => {
     }
 }
 
+// POST     /user/register     PUBLIC API      
 export const registerUser = async (req,res) => {
     const {email, fullName, userName, password} = req.body
 
@@ -59,7 +62,7 @@ export const registerUser = async (req,res) => {
         await user.save()
 
         const token = jwt.sign({id: user}, process.env.JWT_SECRET)
-        return res.status(200).json({success: true, message: "user Registered successful", payload:{
+        return res.status(201).json({success: true, message: "user Registered successful", payload:{
             jwtToken: token,
             userName: user?.userName,
             email: user?.email,
