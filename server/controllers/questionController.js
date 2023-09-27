@@ -3,7 +3,7 @@ import Question from '../models/QuestionModel.js'
 // GET      /question/getQuestions      PUBLIC
 export const fetchQuestions = async (req,res) => {
     try{
-        const questions = await Question.find({})
+        const questions = await Question.find({}).select('title difficulty')
         return res.status(200).json({ success: true, questions })
     }catch(err){
         return res.status(500).json({success: false, message: 'Internal Server Error'})
@@ -61,13 +61,14 @@ export const deleteQuestion = async (req,res) => {
 // POST      /question/     PROTECtED, ADMIN
 export const createQuestion = async (req,res) => {
     try{
-        const { title, description, testCases, category=null } = req.body;
+        const { title, description, difficulty, testCases, category=null } = req.body;
         const existingQuestion = await Question.findOne({title})
         if(existingQuestion){
             return res.status(400).json({success: false, message: 'A question with this title already exists'})
         }
         const question = new Question({
             title,
+            difficulty,
             description,
             testCases,
             Category: category  //this should be category's id
