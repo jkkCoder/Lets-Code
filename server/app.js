@@ -3,6 +3,7 @@ import 'dotenv/config'
 import mongoose from 'mongoose'
 import authRouter from "./routes/userRoute.js"
 import questionRouter from "./routes/questionRoute.js"
+import categoryRouter from "./routes/categoryRoute.js"
 const app = express()
 
 const PORT = 5000
@@ -31,6 +32,7 @@ db.once('open', () => {
 
 app.use('/user',authRouter)
 app.use('/question', questionRouter)
+app.use('/category', categoryRouter)
 
     
 app.listen(PORT, () => {
