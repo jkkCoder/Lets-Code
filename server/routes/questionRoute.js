@@ -1,14 +1,15 @@
 import {Router} from "express"
 import { createQuestion, deleteQuestion, fetchQuestionData, fetchQuestions, updateQuestion } from "../controllers/questionController.js";
+import { admin, requireLogin } from "../middleware/authMiddleware.js";
 
 const router = Router();
 
 router.get('/getQuestions', fetchQuestions)
 router.route('/:id')
     .get(fetchQuestionData)
-    .put(updateQuestion)        //admin protected
-    .delete(deleteQuestion)     //admin protected
+    .put(requireLogin, admin, updateQuestion)        //admin protected
+    .delete(requireLogin, admin, deleteQuestion)     //admin protected
 
-router.post('/createQuestion', createQuestion)
+router.post('/createQuestion', requireLogin, admin, createQuestion)  //admin protected
 
 export default router;
