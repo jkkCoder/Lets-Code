@@ -15,12 +15,26 @@ const Login = () => {
     }
 
     const handleCta = async () => {
-        const response = await axios.post('/user/login', {
-            loginField: emailAddress,
-            password: 'test123'
-        })
+        if(isSignIn){
+            const response = await axios.post('/user/login', {
+                loginField: emailAddress,
+                password: passWord,        
+            })
+            response.data.success && localStorage.setItem('token',response.data.payload.jwtToken)  
+            
+        } else {
+            const response = await axios.post('/user/register', {
+                email: emailAddress,
+                password: passWord,
+                userName: userName,
+                fullName: fullName,
+            })
+            response.data.success && localStorage.setItem('token',response.data.payload.jwtToken)
+            
+        }
     }
     
+
     return (
     <div>
         <h1>LetsCode</h1>
