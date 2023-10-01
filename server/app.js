@@ -4,12 +4,15 @@ import mongoose from 'mongoose'
 import authRouter from "./routes/userRoute.js"
 import questionRouter from "./routes/questionRoute.js"
 import categoryRouter from "./routes/categoryRoute.js"
+import cors from "cors"
 import solutionRouter from "./routes/solutionRoute.js"
 const app = express()
 
 const PORT = 5000
 
 app.use(express.json())
+app.use(cors())
+
 const dbURL = `mongodb+srv://jayeshk118:${process.env.MONGO_ATLAS_PASSWORD}@cluster0.qgq3dkm.mongodb.net/?retryWrites=true&w=majority`
 
 mongoose.connect(dbURL, {
