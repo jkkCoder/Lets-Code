@@ -1,5 +1,6 @@
 import { runCodeCompiler, runOnlineCodeCompiler } from "../utils/compile.js"
 import Question from '../models/QuestionModel.js'
+import Solution from "../models/SolutionModel.js"
 
 // POST         /solution/compile       PROTECTED
 export const compileCode = async(req,res) => {
@@ -25,6 +26,23 @@ export const compileCode = async(req,res) => {
                 })
             }
         };
+
+        //save the code for particular userId and questionId
+        const existingSolution = await Solution.findOne({
+            user: req.user._id,
+            question: questionId
+        })
+        if(existingSolution){
+            existingSolution.code = code
+            await existingSolution.save()
+        }else{
+            const newSolution = new Solution({
+                user: req.user._id,
+                question: questionId,
+                code
+            })
+            await newSolution.save()
+        }
 
         return res.status(200).json({
             success: true,
