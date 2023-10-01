@@ -5,6 +5,7 @@ import authRouter from "./routes/userRoute.js"
 import questionRouter from "./routes/questionRoute.js"
 import categoryRouter from "./routes/categoryRoute.js"
 import cors from "cors"
+import solutionRouter from "./routes/solutionRoute.js"
 const app = express()
 
 const PORT = 5000
@@ -36,6 +37,7 @@ db.once('open', () => {
 app.use('/user',authRouter)
 app.use('/question', questionRouter)
 app.use('/category', categoryRouter)
+app.use('/solution', solutionRouter)
 
     
 app.listen(PORT, () => {
