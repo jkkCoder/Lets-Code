@@ -66,7 +66,7 @@ export const registerUser = async (req,res) => {
             jwtToken: token,
             userName: user?.userName,
             email: user?.email,
-            isAdmin: existingUser?.isAdmin,
+            isAdmin: user?.isAdmin,
             fullname: user?.fullName
         }})
 
