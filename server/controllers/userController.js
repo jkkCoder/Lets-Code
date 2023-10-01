@@ -19,7 +19,7 @@ export const loginUser = async(req,res) => {
 
         if(await bcrypt.compare(password, existingUser?.password)){
             //generate jwt token
-            const token = jwt.sign({id: existingUser}, process.env.JWT_SECRET)
+            const token = jwt.sign({id: existingUser._id}, process.env.JWT_SECRET)
             return res.status(201).json({success: true, message: "user Log in successful", payload:{
                 jwtToken: token,
                 userName: existingUser?.userName,
@@ -61,7 +61,7 @@ export const registerUser = async (req,res) => {
         })
         await user.save()
 
-        const token = jwt.sign({id: user}, process.env.JWT_SECRET)
+        const token = jwt.sign({id: user._id}, process.env.JWT_SECRET)
         return res.status(201).json({success: true, message: "user Registered successful", payload:{
             jwtToken: token,
             userName: user?.userName,

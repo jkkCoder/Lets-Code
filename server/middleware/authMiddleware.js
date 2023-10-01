@@ -1,4 +1,5 @@
 import jwt from 'jsonwebtoken'
+import User from '../models/UserModel.js'
 
 export const requireLogin = async(req,res,next) => {
     const {authorization} = req.headers
@@ -7,11 +8,12 @@ export const requireLogin = async(req,res,next) => {
     }
 
     const token = authorization.replace('Bearer ', '')
-    jwt.verify(token, process.env.JWT_SECRET, (err, payload) => {
+    jwt.verify(token, process.env.JWT_SECRET, async (err, payload) => {
         if(err){
             return res.status(400).json({success: false, message: 'You must be logged in'})
         }
-        req.user = payload.id   //payload.id contains the user 
+        const user = await User.findById(payload.id)
+        req.user = user   //payload.id contains the user 
         next()
     })
 }
