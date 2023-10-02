@@ -2,8 +2,8 @@ import React from 'react'
 import useLogin from './useLogin';
 
 const Login = () => {
-    
-    const {isSignIn, formData, setFormData, toggleSignInForm, handleCta} = useLogin()
+
+    const {isSignIn, errorMessage, formData, setFormData, toggleSignInForm, handleCta} = useLogin()
 
     return (
             <div className="mt-16 flex items-center justify-center">
@@ -12,6 +12,7 @@ const Login = () => {
                     <img src='/LetsCodeLogo.png' alt='letcode logo'/>
                     <h2 className="text-xl mb-4">{isSignIn ? 'Sign In' : 'Sign Up'}</h2>
                     <form onSubmit={(e) => e.preventDefault()}>
+                        {!!errorMessage && <p className="text-red-500 text-sm mb-2">{errorMessage}</p>}
                         {!isSignIn && (
                             <>
                             <input

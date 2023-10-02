@@ -9,6 +9,10 @@ export const loginUser = async(req,res) => {
 
     try{
 
+        if(!loginField || !password){
+            return res.status(400).json({success: false, message: "Please provide all required fields"})
+        }
+
         const existingUser = await User.findOne({
             $or: [{ userName: loginField }, { email: loginField }],
         });
@@ -25,7 +29,7 @@ export const loginUser = async(req,res) => {
                 userName: existingUser?.userName,
                 email: existingUser?.email,
                 isAdmin: existingUser?.isAdmin,
-                fullname: existingUser?.fullName
+                fullName: existingUser?.fullName
             }})
         }
 
@@ -49,7 +53,7 @@ export const registerUser = async (req,res) => {
         });
 
         if(existingUser){
-            return res.status(400).json({success: false, message: "User already exists, try logging in"})
+            return res.status(400).json({success: false, message: "User already exists with given username or email"})
         }
 
         const hashedPassword = bcrypt.hashSync(password, 8);
@@ -67,7 +71,7 @@ export const registerUser = async (req,res) => {
             userName: user?.userName,
             email: user?.email,
             isAdmin: user?.isAdmin,
-            fullname: user?.fullName
+            fullName: user?.fullName
         }})
 
 
@@ -75,4 +79,20 @@ export const registerUser = async (req,res) => {
         return res.status(500).json({success: false, message: "Internal server error", errorMessage: err})
     }
 
+}
+
+// POST     /user/getUser     PUBLIC API      
+export const getUserByToken = async (req, res) => {
+    const {token} = req.body
+    try{
+        jwt.verify(token, process.env.JWT_SECRET, async (err, payload) => {
+            if(err){
+                return res.status(400).json({success: false, message: 'Token expired', userPayload: {}})
+            }
+            const user = await User.findById(payload.id).select("-password")
+            return res.status(200).json({success: true, message: "Fetch successful", userPayload: user})
+        })
+    }catch(err) {
+        return res.status(500).json({success: false, message: "Internal server error", userPayload: {}})
+    }
 }
