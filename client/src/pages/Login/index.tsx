@@ -1,57 +1,76 @@
-import React, { useState } from 'react' 
-import axios from 'axios'
+import React from 'react' 
+import useLogin from './useLogin';
 
 const Login = () => {
-    const [isSignIn, setSignIn] = useState(false);
-    const [fullName, setFullName] = useState("");
-    const [userName, setUserName] = useState("");
-    const [emailAddress, setEmailAddress] = useState("");
-    const [passWord, setPassWord] = useState("");
     
-    const toggleSignInForm = () => {
-        setEmailAddress("")
-        setPassWord("")   
-        setSignIn(prev => !prev)             
-    }
-
-    const handleCta = async () => {
-        if(isSignIn){
-            const response = await axios.post('/user/login', {
-                loginField: emailAddress,
-                password: passWord,        
-            })
-            response.data.success && localStorage.setItem('token',response.data.payload.jwtToken)  
-            
-        } else {
-            const response = await axios.post('/user/register', {
-                email: emailAddress,
-                password: passWord,
-                userName: userName,
-                fullName: fullName,
-            })
-            response.data.success && localStorage.setItem('token',response.data.payload.jwtToken)
-            
-        }
-    }
-    
+    const {isSignIn, formData, setFormData, toggleSignInForm, handleCta} = useLogin()
 
     return (
-    <div>
-        <h1>LetsCode</h1>
-        <h2>{isSignIn ? 'Sign In' : 'Sign Up'}</h2>
-        <form onSubmit={e =>  e.preventDefault() }>
-            {!isSignIn && (<>            
-                <input value={fullName} onChange={(e)=> setFullName(e.target.value)}type="text" placeholder='Full Name'/>
-                <input value={userName} onChange={(e)=> setUserName(e.target.value)} type="text" placeholder='User Name'/>            
-            </>)}
+            <div className="mt-16 flex items-center justify-center">
+                <div className="bg-white p-8 border-[2px] border-gray shadow-md rounded-lg w-96">
+                    {/* <h1 className="text-3xl font-semibold mb-4">LetsCode</h1> */}
+                    <img src='/LetsCodeLogo.png' alt='letcode logo'/>
+                    <h2 className="text-xl mb-4">{isSignIn ? 'Sign In' : 'Sign Up'}</h2>
+                    <form onSubmit={(e) => e.preventDefault()}>
+                        {!isSignIn && (
+                            <>
+                            <input
+                                value={formData.fullName}
+                                onChange={(e) =>
+                                setFormData((prev) => ({ ...prev, fullName: e.target.value }))
+                                }
+                                type="text"
+                                placeholder="Full Name"
+                                className="w-full px-4 py-2 mb-4 border rounded-md focus:outline-none focus:border-[2px] focus:border-orange-300"
+                            />
+                            <input
+                                value={formData.userName}
+                                onChange={(e) =>
+                                setFormData((prev) => ({ ...prev, userName: e.target.value }))
+                                }
+                                type="text"
+                                placeholder="User Name"
+                                className="w-full px-4 py-2 mb-4 border rounded-md focus:outline-none focus:border-[2px] focus:border-orange-300"
+                            />
+                            </>
+                        )}
+                
+                        <input
+                            value={formData.emailAddress}
+                            onChange={(e) =>
+                            setFormData((prev) => ({ ...prev, emailAddress: e.target.value }))
+                            }
+                            type="text"
+                            placeholder={isSignIn ? 'Email address or User Name' : 'Email address'}
+                            className="w-full px-4 py-2 mb-4 border rounded-md focus:outline-none focus:border-[2px] focus:border-orange-300"
+                        />
+                        <input
+                            value={formData.passWord}
+                            onChange={(e) =>
+                            setFormData((prev) => ({ ...prev, passWord: e.target.value }))
+                            }
+                            type="password"
+                            placeholder="Password"
+                            className="w-full px-4 py-2 mb-4 border rounded-md focus:outline-none focus:border-[2px] focus:border-orange-300"
+                        />
+                        <button
+                            onClick={handleCta}
+                            className="w-full bg-orange-500 text-white py-2 rounded-md hover:bg-orange-600"
+                        >
+                            {isSignIn ? 'Sign In' : 'Sign Up'}
+                        </button>
+                        <span
+                            onClick={toggleSignInForm}
+                            className="mt-2 block text-center text-orange-500 cursor-pointer"
+                        >
+                            {isSignIn ? 'New to LetsCode? Sign Up Now' : 'Already a User? Sign In'}
+                        </span>
+                    </form>
+                </div>
+            </div>
         
-            <input value={emailAddress} onChange={(e)=>setEmailAddress(e.target.value)} type="text" placeholder={isSignIn ? 'Email address or User Name' : 'Email address'}/>
-            <input value={passWord} onChange={(e)=>setPassWord(e.target.value)} type="password" placeholder='Password'/>
-            <button onClick={handleCta}>{isSignIn ? 'Sign In' : 'Sign Up'}</button>
-            <span onClick={toggleSignInForm}>{isSignIn ? "New to LetsCode ? Sign Up Now" : "Already a User ? Sign In"}</span>
-        </form>
-    </div>
-  )
+    );
+    
 }
 
 export default Login
