@@ -47,6 +47,7 @@ const useLogin = () => {
                 })
                 response?.data?.success && localStorage.setItem('token',response?.data?.payload?.jwtToken)  
                 dispatch(addUser({
+                    _id: response?.data?.payload?._id,
                     userName: response?.data?.payload?.userName,
                     email: response?.data?.payload?.email,
                     isAdmin: response?.data?.payload?.isAdmin,
@@ -80,6 +81,7 @@ const useLogin = () => {
                 })
                 response?.data?.success && localStorage.setItem('token',response?.data?.payload?.jwtToken)
                 dispatch(addUser({
+                    _id: response?.data?.payload?._id,
                     userName: response?.data?.payload?.userName,
                     email: response?.data?.payload?.email,
                     isAdmin: response?.data?.payload?.isAdmin,

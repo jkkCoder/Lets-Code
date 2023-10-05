@@ -18,6 +18,7 @@ const Body = () => {
       try{
         const userPayload = await API.get('/user/getUser/' + token)
         dispatch(addUser({
+          _id: userPayload?.data?.userPayload?._id,
           userName: userPayload?.data?.userPayload?.userName,
           email: userPayload?.data?.userPayload?.email,
           isAdmin: userPayload?.data?.userPayload?.isAdmin,
