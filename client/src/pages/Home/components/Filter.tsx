@@ -14,7 +14,7 @@ interface FilterProps {
 const Filter = ({title, options, handleClick, filtersSelected , dropDownOpen, setDropDownOpen}: FilterProps) => {  
   return (
     <div className='inline-block  relative mr-8 '>
-        <div onClick={() => setDropDownOpen(title)} className='bg-gray-100 rounded-sm px-2 py-2 flex items-center'>
+        <div onClick={() => setDropDownOpen(title)} className='bg-gray-100 hover:bg-gray-200 rounded-sm px-2 py-2 flex items-center'>
            <span className='text-s mr-4'>{title}</span>
            <FaChevronDown />
         </div>

@@ -6,7 +6,7 @@ import questionSlice from './questionSlice'
 export const store = configureStore({
     reducer: {
         user: userSlice,
-        quesions: questionSlice,
+        questions: questionSlice,
     }
 })
 
