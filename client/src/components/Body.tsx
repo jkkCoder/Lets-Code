@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react'
 import Header from './Header'
 import {Outlet, useNavigate} from "react-router-dom"
-import axios from 'axios'
 import { useAppDispatch } from '../redux/storeHook'
 import { addUser } from '../redux/userSlice'
+import { API } from '../utils/API'
 
 const Body = () => {
   const dispatch = useAppDispatch()
@@ -16,7 +16,7 @@ const Body = () => {
         return;
       }
       try{
-        const userPayload = await axios.get('/user/getUser/' + token)
+        const userPayload = await API.get('/user/getUser/' + token)
         dispatch(addUser({
           userName: userPayload?.data?.userPayload?.userName,
           email: userPayload?.data?.userPayload?.email,
