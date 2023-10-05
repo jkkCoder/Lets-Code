@@ -1,6 +1,5 @@
 import React from 'react'
 import { QuestionSlice } from '../../../redux/questionSlice'
-import { GREEN, ORANGE, RED} from "../../../utils/colors"
 import { Link } from 'react-router-dom'
 
 interface QuestionContainerProps {
