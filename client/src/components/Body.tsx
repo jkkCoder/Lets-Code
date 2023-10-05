@@ -11,10 +11,12 @@ const Body = () => {
   useEffect(() => {
     const fetchUser = async () => {
       const token = localStorage.getItem('token')
+      if(!token){
+        navigate('/login')
+        return;
+      }
       try{
-        const userPayload = await axios.post('/user/getUser', {
-          token
-        })
+        const userPayload = await axios.get('/user/getUser/' + token)
         dispatch(addUser({
           userName: userPayload?.data?.userPayload?.userName,
           email: userPayload?.data?.userPayload?.email,

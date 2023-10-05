@@ -81,15 +81,15 @@ export const registerUser = async (req,res) => {
 
 }
 
-// POST     /user/getUser     PUBLIC API      
+// GET     /user/getUser/:token     PUBLIC API      
 export const getUserByToken = async (req, res) => {
-    const {token} = req.body
+    const {token} = req.params
     try{
         jwt.verify(token, process.env.JWT_SECRET, async (err, payload) => {
-            if(err){
+            const user = await User.findById(payload?.id).select("-password")
+            if(err || !user){
                 return res.status(400).json({success: false, message: 'Token expired', userPayload: {}})
-            }
-            const user = await User.findById(payload.id).select("-password")
+            } 
             return res.status(200).json({success: true, message: "Fetch successful", userPayload: user})
         })
     }catch(err) {

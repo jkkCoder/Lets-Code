@@ -5,6 +5,6 @@ const router = Router()
 
 router.post("/login", loginUser)
 router.post("/register", registerUser)
-router.post('/getUser', getUserByToken)
+router.get('/getUser/:token', getUserByToken)
 
 export default router;
