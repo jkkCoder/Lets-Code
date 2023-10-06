@@ -18,7 +18,7 @@ const FilterContainer = () => {
     dispatch(setQuestionsLoading(true))
     const filterQuestions = async() => {
       try{
-        const response = await API.get(`/question/filterQuestions?difficulty=${difficultySelected.join(',')}&status=${statusSelected[0]}&userId=${user._id}`)
+        const response = await API.get(`/question/filterQuestions?difficulty=${difficultySelected.join(',')}&status=${statusSelected}&userId=${user._id}`)
         dispatch(addQuestions(response?.data?.questions))
       }catch(err){
 

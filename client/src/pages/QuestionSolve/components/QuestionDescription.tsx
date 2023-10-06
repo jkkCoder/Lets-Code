@@ -23,7 +23,7 @@ const QuestionDescription = () => {
 
         <p className='mt-2'>{description}</p>
         {testCases.map((testCase, index) => (
-            <Testcase testCase={testCase} number={index+1}/>
+            <Testcase key={testCase?.input} testCase={testCase} number={index+1}/>
         ))}        
     </div>
   )
