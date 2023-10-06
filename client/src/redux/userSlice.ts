@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit"
 
 interface UserSlice {
+    _id: string
     userName: string
     email: string
     isAdmin: boolean | null
@@ -8,6 +9,7 @@ interface UserSlice {
 }
 
 const initialState : UserSlice = {
+    _id:'',
     userName : '',
     email: '',
     isAdmin: null,
@@ -18,7 +20,7 @@ const userSlice = createSlice({
     name: 'user',
     initialState,
     reducers: {
-        addUser: (state, action) => {
+        addUser: (_, action) => {
             return action.payload
         },
         logout: () => {

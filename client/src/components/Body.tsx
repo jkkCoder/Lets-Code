@@ -11,20 +11,17 @@ const Body = () => {
   useEffect(() => {
     const fetchUser = async () => {
       const token = localStorage.getItem('token')
-      if(!token){
-        navigate('/login')
-        return;
-      }
       try{
         const userPayload = await API.get('/user/getUser/' + token)
         dispatch(addUser({
+          _id: userPayload?.data?.userPayload?._id,
           userName: userPayload?.data?.userPayload?.userName,
           email: userPayload?.data?.userPayload?.email,
           isAdmin: userPayload?.data?.userPayload?.isAdmin,
           fullname: userPayload?.data?.userPayload?.fullName
       }))
       }catch(err){
-        navigate('/login')
+        
       }
     }
     fetchUser()

@@ -1,9 +1,9 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
 import {isValidEmail, isValidPassword} from "../../utils/constants"
 import {useNavigate} from "react-router-dom"
 import { addUser } from "../../redux/userSlice";
 import { useAppDispatch, useAppSelector } from "../../redux/storeHook";
+import { API } from "../../utils/API";
 
 
 
@@ -41,12 +41,13 @@ const useLogin = () => {
                 return;
             }
             try{
-                const response = await axios.post('/user/login', {
+                const response = await API.post('/user/login', {
                     loginField: formData.emailAddress,
                     password: formData.passWord,        
                 })
                 response?.data?.success && localStorage.setItem('token',response?.data?.payload?.jwtToken)  
                 dispatch(addUser({
+                    _id: response?.data?.payload?._id,
                     userName: response?.data?.payload?.userName,
                     email: response?.data?.payload?.email,
                     isAdmin: response?.data?.payload?.isAdmin,
@@ -72,7 +73,7 @@ const useLogin = () => {
                 return
             }
             try{
-                const response = await axios.post('/user/register', {
+                const response = await API.post('/user/register', {
                     email: formData.emailAddress,
                     password: formData.passWord,
                     userName: formData.userName,
@@ -80,6 +81,7 @@ const useLogin = () => {
                 })
                 response?.data?.success && localStorage.setItem('token',response?.data?.payload?.jwtToken)
                 dispatch(addUser({
+                    _id: response?.data?.payload?._id,
                     userName: response?.data?.payload?.userName,
                     email: response?.data?.payload?.email,
                     isAdmin: response?.data?.payload?.isAdmin,
