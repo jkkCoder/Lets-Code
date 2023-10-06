@@ -5,6 +5,7 @@ import FilterTip from './FilterTip'
 import { API } from '../../../utils/API'
 import { useAppDispatch, useAppSelector } from '../../../redux/storeHook'
 import { addQuestions, setQuestionsLoading } from '../../../redux/questionSlice'
+import { addCategory, setCategoryLoading } from '../../../redux/categorySlice'
 
 const FilterContainer = () => {
 
@@ -16,6 +17,7 @@ const FilterContainer = () => {
 
   useEffect(() => {
     dispatch(setQuestionsLoading(true))
+    dispatch(setCategoryLoading(true))
     const filterQuestions = async() => {
       try{
         const response = await API.get(`/question/filterQuestions?difficulty=${difficultySelected.join(',')}&status=${statusSelected}&userId=${user._id}`)
@@ -26,7 +28,19 @@ const FilterContainer = () => {
         dispatch(setQuestionsLoading(false))
       }
     }
+
+    const getCategories = async() => {
+      try{
+        const response = await API.get('/category/allCategories')
+        dispatch(addCategory(response?.data?.categories))
+      }catch(err){
+        
+      }finally{
+        dispatch(setCategoryLoading(false))
+      }
+    }
     filterQuestions()
+    getCategories()
   },[difficultySelected, statusSelected])
   
   const handleDifficultyClick = (option:string) => {
