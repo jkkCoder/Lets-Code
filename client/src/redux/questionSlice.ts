@@ -16,9 +16,9 @@ export  interface QuestionSlice {
 
 const initialState = {
     questions: [] as QuestionSlice[],
-    questionsLoading: true as Boolean,
+    questionsLoading: true as boolean,
     currentQuestion: {} as QuestionSlice,
-    currentQuestionLoading: true as Boolean,
+    currentQuestionLoading: true as boolean,
 }
 
 const questionSlice = createSlice({

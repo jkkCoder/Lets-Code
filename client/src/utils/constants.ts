@@ -15,3 +15,9 @@ export const capitalizeFirstLetter = (str: string) => {
 
 export const difficultyOptions = ["easy","medium","hard"]
 export const statusOptions = ["solved", "unsolved"]
+
+export const defaultLanguageCode = {
+    'c' : '#include<stdio.h>\n\nint main(){\n    printf("write your code here");\n    return 0;\n}',
+    'c++' : '#include <bits/stdc++.h>\nusing namespace std;\n\nint main(){\n    cout<<"write your code here";\n    return 0;\n}',
+    'py' : "print('write your code here')"
+}

@@ -21,6 +21,7 @@ export const compileCode = async(req,res) => {
                 return res.status(200).json({
                     success: true,
                     compileStatus: 'ERROR',
+                    input: testCase.input,
                     expectedOutput: testCase.expectedOutput,
                     actualOutput: result.message.trimEnd()
                 })

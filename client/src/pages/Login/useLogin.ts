@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import {isValidEmail, isValidPassword} from "../../utils/constants"
-import {useNavigate} from "react-router-dom"
+import {useNavigate, useLocation} from "react-router-dom"
 import { addUser } from "../../redux/userSlice";
 import { useAppDispatch, useAppSelector } from "../../redux/storeHook";
 import { API } from "../../utils/API";
@@ -9,10 +9,19 @@ import { API } from "../../utils/API";
 
 const useLogin = () => {
     const dispatch = useAppDispatch()
+    const location = useLocation();
+    const queryParams = new URLSearchParams(location.search);
+    const prevScreen = queryParams.get('prevScreen');
+
     const user = useAppSelector(state => state.user)
 
     useEffect(() => {
-        if(user?.email?.length > 0){      //this means user exists, and is signed in
+        if(user?.email?.length > 0){
+            if(prevScreen?.length > 0){
+                navigate(prevScreen)
+                return;
+            }     
+             //this means user exists, and is signed in
             navigate('/')
         }
     },[user])
@@ -53,6 +62,10 @@ const useLogin = () => {
                     isAdmin: response?.data?.payload?.isAdmin,
                     fullname: response?.data?.payload?.fullname
                 }))
+                if(prevScreen?.length > 0){
+                    navigate(prevScreen)
+                    return;
+                }
                 navigate('/')
             }catch(err){
                 if(err?.response?.status === 400 || err?.response?.status === 500){
@@ -87,6 +100,10 @@ const useLogin = () => {
                     isAdmin: response?.data?.payload?.isAdmin,
                     fullname: response?.data?.payload?.fullname
                 }))
+                if(prevScreen?.length > 0){
+                    navigate(prevScreen)
+                    return;
+                }
                 navigate('/')
             }catch(err){
                 if(err?.response?.status === 400 || err?.response?.status === 500){
