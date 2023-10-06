@@ -21,7 +21,7 @@ const Body = () => {
           fullname: userPayload?.data?.userPayload?.fullName
       }))
       }catch(err){
-        
+        localStorage.setItem('token', '')
       }
     }
     fetchUser()

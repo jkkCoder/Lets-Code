@@ -4,7 +4,7 @@ import { difficultyOptions, statusOptions } from '../../../utils/constants'
 import FilterTip from './FilterTip'
 import { API } from '../../../utils/API'
 import { useAppDispatch, useAppSelector } from '../../../redux/storeHook'
-import { addQuestions } from '../../../redux/questionSlice'
+import { addQuestions, setQuestionsLoading } from '../../../redux/questionSlice'
 
 const FilterContainer = () => {
 
@@ -15,12 +15,15 @@ const FilterContainer = () => {
   const [dropDownOpen, setDropDownOpen ] = useState("")     //contains which drop down is open currently
 
   useEffect(() => {
+    dispatch(setQuestionsLoading(true))
     const filterQuestions = async() => {
       try{
-        const response = await API.get(`/question/filterQuestions?difficulty=${difficultySelected.join(',')}&status=${statusSelected}&userId=${user._id}`)
+        const response = await API.get(`/question/filterQuestions?difficulty=${difficultySelected.join(',')}&status=${statusSelected[0]}&userId=${user._id}`)
         dispatch(addQuestions(response?.data?.questions))
       }catch(err){
 
+      }finally{
+        dispatch(setQuestionsLoading(false))
       }
     }
     filterQuestions()
@@ -35,6 +38,10 @@ const FilterContainer = () => {
   }
 
   const handleStatusSelected = (option:string) => {
+    if(option === statusSelected[0]){
+      setStatusSelected([])
+      return;
+    }
     setStatusSelected([option])
   }
 
