@@ -9,5 +9,5 @@ export const isValidPassword = (password) => {
     return passwordRegex.test(password);
 }
 
-export const difficultyOptions = ["Easy","Medium","Hard"]
-export const statusOptions = ["Solved", "Unsolved"]
+export const difficultyOptions = ["easy","medium","hard"]
+export const statusOptions = ["solved", "unsolved"]

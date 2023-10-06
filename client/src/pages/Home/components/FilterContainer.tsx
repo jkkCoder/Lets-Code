@@ -1,13 +1,30 @@
-import React,{useState} from 'react'
+import React,{useEffect, useState} from 'react'
 import Filter from './Filter'
 import { difficultyOptions, statusOptions } from '../../../utils/constants'
 import FilterTip from './FilterTip'
+import { API } from '../../../utils/API'
+import { useAppDispatch, useAppSelector } from '../../../redux/storeHook'
+import { addQuestions } from '../../../redux/questionSlice'
 
 const FilterContainer = () => {
 
+  const user = useAppSelector( state => state.user )
+  const dispatch = useAppDispatch()
   const [difficultySelected, setDifficultySelected] = useState<string[]>([])
   const [statusSelected, setStatusSelected] = useState<string[]>([])
   const [dropDownOpen, setDropDownOpen ] = useState("")     //contains which drop down is open currently
+
+  useEffect(() => {
+    const filterQuestions = async() => {
+      try{
+        const response = await API.get(`/question/filterQuestions?difficulty=${difficultySelected.join(',')}&status=${statusSelected}&userId=${user._id}`)
+        dispatch(addQuestions(response?.data?.questions))
+      }catch(err){
+
+      }
+    }
+    filterQuestions()
+  },[difficultySelected, statusSelected])
   
   const handleDifficultyClick = (option:string) => {
     if(difficultySelected.includes(option)){

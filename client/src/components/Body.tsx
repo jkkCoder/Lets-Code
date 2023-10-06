@@ -11,10 +11,6 @@ const Body = () => {
   useEffect(() => {
     const fetchUser = async () => {
       const token = localStorage.getItem('token')
-      if(!token){
-        navigate('/login')
-        return;
-      }
       try{
         const userPayload = await API.get('/user/getUser/' + token)
         dispatch(addUser({
@@ -25,7 +21,7 @@ const Body = () => {
           fullname: userPayload?.data?.userPayload?.fullName
       }))
       }catch(err){
-        navigate('/login')
+        
       }
     }
     fetchUser()

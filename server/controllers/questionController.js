@@ -1,4 +1,5 @@
 import Question from '../models/QuestionModel.js'
+import Solution from '../models/SolutionModel.js'
 
 // GET      /question/getQuestions      PUBLIC
 export const fetchQuestions = async (req,res) => {
@@ -58,7 +59,7 @@ export const deleteQuestion = async (req,res) => {
     }
 }
 
-// POST      /question/     PROTECtED, ADMIN
+// POST      /question/createQuestion     PROTECtED, ADMIN
 export const createQuestion = async (req,res) => {
     try{
         const { title, description, difficulty, testCases, category=null } = req.body;
@@ -78,6 +79,37 @@ export const createQuestion = async (req,res) => {
             question
         }})
     }catch(err){
+        return res.status(500).json({success: false, message: 'Internal Server Error'})
+    }
+}
+
+// GET      /question/filterQuestions     PUBLIC
+export const filterQuestions = async(req,res) => {
+
+    try{
+        const {difficulty, status, userId} = req.query
+
+        const query = {};
+        if(difficulty){
+            query.difficulty = {$in: difficulty.split(',')}
+        }
+
+        if(userId && status) {
+            const solutions = await Solution.find({
+                user: userId
+            })
+            const questionIds = solutions.map(solution => solution.question)
+
+            query._id = status === 'solved' ?  { $in: questionIds } : {$nin: questionIds };
+        }
+        
+        const questions = await Question.find(query);
+        return res.json({
+            success: true,
+            questions
+        });
+    }catch(err){
+        console.log("error is ", err)
         return res.status(500).json({success: false, message: 'Internal Server Error'})
     }
 }
