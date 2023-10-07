@@ -12,7 +12,7 @@ const QuestionContainer = ({number, question}:QuestionContainerProps) => {
   
   return (
     <Link to={`/solve/${question?._id}`}>
-        <div className={`${number % 2 === 0 ? `bg-[white]` : `bg-[#F3F4F6]`} flex w-[50rem] p-1`}>
+        <div className={`${number % 2 === 0 ? `bg-[white]` : `bg-[#F3F4F6]`} flex p-1`}>
             <div className='flex w-9/12 hover:text-blue-700'>
                 <p className='mr-5'>{`${number}) `}</p>
                 <p className=''>{question?.title}</p>

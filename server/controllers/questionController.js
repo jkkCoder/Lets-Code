@@ -14,7 +14,7 @@ export const fetchQuestions = async (req,res) => {
 // GET      /question/:id      PUBLIC
 export const fetchQuestionData = async (req,res) => {
     try{
-        const question = await Question.findById(req.params.id)
+        const question = await Question.findById(req.params.id).populate('Category','name')
 
         if(!question){
             return res.status(400).json({success: false, message: 'Question not found'})

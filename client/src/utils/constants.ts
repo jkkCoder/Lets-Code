@@ -9,5 +9,15 @@ export const isValidPassword = (password) => {
     return passwordRegex.test(password);
 }
 
+export const capitalizeFirstLetter = (str: string) => {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
 export const difficultyOptions = ["easy","medium","hard"]
 export const statusOptions = ["solved", "unsolved"]
+
+export const defaultLanguageCode = {
+    'c' : '#include<stdio.h>\n\nint main(){\n    printf("write your code here");\n    return 0;\n}',
+    'c++' : '#include <bits/stdc++.h>\nusing namespace std;\n\nint main(){\n    cout<<"write your code here";\n    return 0;\n}',
+    'py' : "print('write your code here')"
+}

@@ -4,25 +4,48 @@ import { difficultyOptions, statusOptions } from '../../../utils/constants'
 import FilterTip from './FilterTip'
 import { API } from '../../../utils/API'
 import { useAppDispatch, useAppSelector } from '../../../redux/storeHook'
-import { addQuestions } from '../../../redux/questionSlice'
+import { addQuestions, setQuestionsLoading } from '../../../redux/questionSlice'
+import { addCategory, setCategoryLoading } from '../../../redux/categorySlice'
 
 const FilterContainer = () => {
 
   const user = useAppSelector( state => state.user )
+  const questions = useAppSelector(state => state.questions.questions)
   const dispatch = useAppDispatch()
   const [difficultySelected, setDifficultySelected] = useState<string[]>([])
   const [statusSelected, setStatusSelected] = useState<string[]>([])
   const [dropDownOpen, setDropDownOpen ] = useState("")     //contains which drop down is open currently
 
   useEffect(() => {
+    const getCategories = async() => {
+      try{
+        const response = await API.get('/category/allCategories')
+        dispatch(addCategory(response?.data?.categories))
+      }catch(err){
+        
+      }finally{
+        dispatch(setCategoryLoading(false))
+      }
+    }
+    if(questions?.length === 0){
+      dispatch(setCategoryLoading(true))
+      getCategories()
+    }
+  },[])
+
+  useEffect(() => {
+    dispatch(setQuestionsLoading(true))
     const filterQuestions = async() => {
       try{
         const response = await API.get(`/question/filterQuestions?difficulty=${difficultySelected.join(',')}&status=${statusSelected}&userId=${user._id}`)
         dispatch(addQuestions(response?.data?.questions))
       }catch(err){
 
+      }finally{
+        dispatch(setQuestionsLoading(false))
       }
     }
+    
     filterQuestions()
   },[difficultySelected, statusSelected])
   
@@ -35,6 +58,10 @@ const FilterContainer = () => {
   }
 
   const handleStatusSelected = (option:string) => {
+    if(option === statusSelected[0]){
+      setStatusSelected([])
+      return;
+    }
     setStatusSelected([option])
   }
 
