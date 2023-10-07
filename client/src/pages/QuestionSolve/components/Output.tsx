@@ -20,9 +20,9 @@ const Output = ({onSubmit, submitLoading,codeOutput}:OutputProps) => {
   const Message = () => {
     return (
       <p>
-        You need to 
+        You need to{" "}
         <Link to={`/login?prevScreen=/solve/${_id}`}><span className='bg-orange-500 cursor-pointer rounded-sm px-1'>Login</span></Link> 
-         to run the code
+         {" "}to run the code
       </p>
     )
   }

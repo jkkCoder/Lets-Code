@@ -13,38 +13,34 @@ const Home = () => {
   const {categories, categoryLoading} = category
   const questionsLoading = useAppSelector(state => state.questions.questionsLoading)
   
-  return (
-    <div className='inline-block'>
-
-      {/* api calls to fetch question and categories made inside filterContainer component */}
-      <FilterContainer />
-      
-      <div className='flex flex-row w-[70rem]'>
-        <div className='overflow-y-scroll w-8/12'>
-          { questionsLoading && <QuestionContainerSkeleton /> }
-          {
-            !questionsLoading && questions.map((question,index) => <QuestionContainer 
-              key={question?._id}
-              number={index+1} 
-              question={question} 
-            />
-            )
-          }
-        </div>
-        <div className=' w-4/12 m-2'>
-          <p className='font-bold text-3xl mb-5'>Categories</p>
-          <div className='flex my-2 flex-wrap'>
-            {categoryLoading && <CategorySkeleton />}
-            {!categoryLoading && categories.map(category => (
-              <Link to={`/category/${category?._id}`}>
-                  <CategoryName key={category?._id} name={category?.name}/>
-              </Link>
-            ))}
-          </div>
+  return (    
+    <div className='flex flex-row'>
+      <div className='overflow-y-scroll w-9/12 min-h-[12rem]'>
+        {/* api calls to fetch question and categories made inside filterContainer component */}
+        <FilterContainer />
+        { questionsLoading && <QuestionContainerSkeleton /> }
+        {
+          !questionsLoading && questions.map((question,index) => <QuestionContainer 
+            key={question?._id}
+            number={index+1} 
+            question={question} 
+          />
+          )
+        }
+      </div>
+      <div className=' w-3/12 m-2'>
+        <p className='font-bold text-3xl mb-5'>Categories</p>
+        <div className='flex my-2 flex-wrap'>
+          {categoryLoading && <CategorySkeleton />}
+          {!categoryLoading && categories.map(category => (
+            <Link key={category?._id} to={`/category?=name=${category?.name}`}>
+                <CategoryName name={category?.name}/>
+            </Link>
+          ))}
         </div>
       </div>
-
     </div>
+
     
   )
 }

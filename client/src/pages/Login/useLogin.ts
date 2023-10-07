@@ -17,14 +17,10 @@ const useLogin = () => {
 
     useEffect(() => {
         if(user?.email?.length > 0){
-            if(prevScreen?.length > 0){
-                navigate(prevScreen)
-                return;
-            }     
              //this means user exists, and is signed in
             navigate('/')
         }
-    },[user])
+    },[])
     
     const navigate = useNavigate()
     const [isSignIn, setSignIn] = useState(true);

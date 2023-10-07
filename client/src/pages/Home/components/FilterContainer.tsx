@@ -10,25 +10,13 @@ import { addCategory, setCategoryLoading } from '../../../redux/categorySlice'
 const FilterContainer = () => {
 
   const user = useAppSelector( state => state.user )
+  const questions = useAppSelector(state => state.questions.questions)
   const dispatch = useAppDispatch()
   const [difficultySelected, setDifficultySelected] = useState<string[]>([])
   const [statusSelected, setStatusSelected] = useState<string[]>([])
   const [dropDownOpen, setDropDownOpen ] = useState("")     //contains which drop down is open currently
 
   useEffect(() => {
-    dispatch(setQuestionsLoading(true))
-    dispatch(setCategoryLoading(true))
-    const filterQuestions = async() => {
-      try{
-        const response = await API.get(`/question/filterQuestions?difficulty=${difficultySelected.join(',')}&status=${statusSelected}&userId=${user._id}`)
-        dispatch(addQuestions(response?.data?.questions))
-      }catch(err){
-
-      }finally{
-        dispatch(setQuestionsLoading(false))
-      }
-    }
-
     const getCategories = async() => {
       try{
         const response = await API.get('/category/allCategories')
@@ -39,8 +27,26 @@ const FilterContainer = () => {
         dispatch(setCategoryLoading(false))
       }
     }
+    if(questions?.length === 0){
+      dispatch(setCategoryLoading(true))
+      getCategories()
+    }
+  },[])
+
+  useEffect(() => {
+    dispatch(setQuestionsLoading(true))
+    const filterQuestions = async() => {
+      try{
+        const response = await API.get(`/question/filterQuestions?difficulty=${difficultySelected.join(',')}&status=${statusSelected}&userId=${user._id}`)
+        dispatch(addQuestions(response?.data?.questions))
+      }catch(err){
+
+      }finally{
+        dispatch(setQuestionsLoading(false))
+      }
+    }
+    
     filterQuestions()
-    getCategories()
   },[difficultySelected, statusSelected])
   
   const handleDifficultyClick = (option:string) => {

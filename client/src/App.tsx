@@ -9,7 +9,6 @@ import Category from "./pages/Category";
 import NotFound from "./pages/NotFound";
 import { store } from "./redux/store";
 import {Provider} from "react-redux"
-import CategoryId from "./pages/CategoryId";
 
 const router = createBrowserRouter([
   {
@@ -27,10 +26,6 @@ const router = createBrowserRouter([
       {
         path: "/category",
         element: <Category />,
-      },
-      {
-        path: "/category/:id",
-        element: <CategoryId />
       },
       {
         path: "/login",
