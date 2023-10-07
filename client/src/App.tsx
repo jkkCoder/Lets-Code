@@ -7,9 +7,6 @@ import Home from "./pages/Home";
 import QuestionSolve from "./pages/QuestionSolve";
 import Category from "./pages/Category";
 import NotFound from "./pages/NotFound";
-import { store } from "./redux/store";
-import {Provider} from "react-redux"
-
 const router = createBrowserRouter([
   {
     path: "/",
@@ -41,9 +38,7 @@ const router = createBrowserRouter([
 
 function App() {
   return (
-    <Provider store={store}>
-      <RouterProvider router={router} />
-    </Provider>
+    <RouterProvider router={router} />
   );
 }
 
