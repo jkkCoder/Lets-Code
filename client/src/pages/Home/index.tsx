@@ -14,7 +14,7 @@ const Home = () => {
   const questionsLoading = useAppSelector(state => state.questions.questionsLoading)
   
   return (    
-    <div className='flex flex-row'>
+    <div className='flex flex-row mt-4'>
       <div className='overflow-y-scroll w-9/12 min-h-[12rem]'>
         {/* api calls to fetch question and categories made inside filterContainer component */}
         <FilterContainer />

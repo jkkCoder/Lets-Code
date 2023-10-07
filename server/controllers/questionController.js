@@ -113,3 +113,17 @@ export const filterQuestions = async(req,res) => {
         return res.status(500).json({success: false, message: 'Internal Server Error'})
     }
 }
+
+// GET      /question/search     PUBLIC
+export const searchQuestion = async (req,res) => {
+    try{
+        const {query} = req.query
+        const regex = new RegExp(query, "i");
+        const questions = await Question.find({ title: { $regex: regex } }).select('title description')
+
+        res.json({ questions });
+    }catch(err){
+        console.log("error is ",err)
+        return res.status(500).json({success: false, message: 'Internal Server Error'})
+    }
+}
