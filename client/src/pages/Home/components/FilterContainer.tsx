@@ -11,6 +11,7 @@ const FilterContainer = () => {
 
   const user = useAppSelector( state => state.user )
   const questions = useAppSelector(state => state.questions.questions)
+  const categories = useAppSelector(state => state.categories.categories)
   const dispatch = useAppDispatch()
   const [difficultySelected, setDifficultySelected] = useState<string[]>([])
   const [statusSelected, setStatusSelected] = useState<string[]>([])
@@ -27,7 +28,7 @@ const FilterContainer = () => {
         dispatch(setCategoryLoading(false))
       }
     }
-    if(questions?.length === 0){
+    if(categories?.length === 0){
       dispatch(setCategoryLoading(true))
       getCategories()
     }
