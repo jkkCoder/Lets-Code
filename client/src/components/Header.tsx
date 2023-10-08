@@ -39,6 +39,11 @@ const Header = () => {
         <Link to="/category" className="ml-4 text-white hover:text-blue-500 transition duration-300 ease-in-out">
           Category
         </Link>
+        {
+          user?.isAdmin && <Link to="/admin" className="ml-4 text-white hover:text-blue-500 transition duration-300 ease-in-out">
+            Admin
+          </Link>
+        }
         { !isLoggedIn ? 
         <>
           <Link to="/login" className="ml-4 text-white hover:text-blue-500 transition duration-300 ease-in-out">

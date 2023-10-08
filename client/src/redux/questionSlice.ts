@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 export  interface QuestionSlice {
-    _id: string;
+    _id?: string;
     title: string;
     difficulty: string;
     Category?: string | undefined | null;

@@ -7,6 +7,7 @@ import QuestionSolve from "./pages/QuestionSolve";
 import Category from "./pages/Category";
 import NotFound from "./pages/NotFound";
 import Profile from "./pages/Profile";
+import Admin from "./pages/Admin";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -23,6 +24,10 @@ const router = createBrowserRouter([
       {
         path: "/category",
         element: <Category />,
+      },
+      {
+        path: "/admin",
+        element: <Admin />,
       },
       {
         path: "/login",

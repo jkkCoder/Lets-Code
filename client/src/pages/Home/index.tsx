@@ -21,11 +21,16 @@ const Home = () => {
         <div style={{ maxHeight: 'calc(100vh - 9rem)' }} className='min-h-[12rem] overflow-y-scroll'>
           { questionsLoading && <QuestionContainerSkeleton /> }
           {
-            !questionsLoading && questions.map((question,index) => <QuestionContainer 
-              key={question?._id}
-              number={index+1} 
-              question={question} 
-            />
+            !questionsLoading && questions.map((question,index) => (
+              <Link key={question?._id} to={`/solve/${question?._id}`}>
+                <QuestionContainer 
+                  number={index+1} 
+                  question={question} 
+                />
+              </Link>
+            )
+            
+            
             )
           }
         </div>

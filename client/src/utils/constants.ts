@@ -1,3 +1,5 @@
+import { toast } from 'react-toastify';
+
 export const isValidEmail = (email) => {
     const emailRegex = /^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$/;
     console.log('email is ', email)
@@ -20,4 +22,30 @@ export const defaultLanguageCode = {
     'c' : '#include<stdio.h>\n\nint main(){\n    printf("write your code here");\n    return 0;\n}',
     'c++' : '#include <bits/stdc++.h>\nusing namespace std;\n\nint main(){\n    cout<<"write your code here";\n    return 0;\n}',
     'py' : "print('write your code here')"
+}
+
+export const successToastMessage = (message: string) => {
+    toast.success(message, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+    });
+}
+
+export const deleteToastMessage = (message: string) => {
+    toast.error(message, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+    });
 }
