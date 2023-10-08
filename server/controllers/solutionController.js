@@ -40,6 +40,7 @@ export const compileCode = async(req,res) => {
             const newSolution = new Solution({
                 user: req.user._id,
                 question: questionId,
+                language: lang,
                 code
             })
             await newSolution.save()

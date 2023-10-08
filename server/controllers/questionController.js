@@ -119,7 +119,7 @@ export const searchQuestion = async (req,res) => {
     try{
         const {query} = req.query
         const regex = new RegExp(query, "i");
-        const questions = await Question.find({ title: { $regex: regex } }).select('title description')
+        const questions = await Question.find({ title: { $regex: regex } }).select('title description').limit(15)
 
         res.json({ questions });
     }catch(err){

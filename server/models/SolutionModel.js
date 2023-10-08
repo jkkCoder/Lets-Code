@@ -10,6 +10,10 @@ const SolutionSchema = mongoose.Schema({
         ref: 'User',
         required: true
     },
+    language:{
+        type: String,
+        required: true,
+    },
     question: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Question',

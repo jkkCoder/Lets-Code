@@ -1,5 +1,4 @@
 import React from "react"
-import './App.css';
 import Body from "./components/Body"
 import Login from "./pages/Login/index";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";

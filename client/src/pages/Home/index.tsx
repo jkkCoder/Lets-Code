@@ -15,18 +15,20 @@ const Home = () => {
   
   return (    
     <div className='flex flex-row mt-4'>
-      <div className='overflow-y-scroll w-9/12 min-h-[12rem]'>
+      <div  className=' ml-5 w-9/12 min-h-[12rem]'>
         {/* api calls to fetch question and categories made inside filterContainer component */}
         <FilterContainer />
-        { questionsLoading && <QuestionContainerSkeleton /> }
-        {
-          !questionsLoading && questions.map((question,index) => <QuestionContainer 
-            key={question?._id}
-            number={index+1} 
-            question={question} 
-          />
-          )
-        }
+        <div style={{ maxHeight: 'calc(100vh - 9rem)' }} className='min-h-[12rem] overflow-y-scroll'>
+          { questionsLoading && <QuestionContainerSkeleton /> }
+          {
+            !questionsLoading && questions.map((question,index) => <QuestionContainer 
+              key={question?._id}
+              number={index+1} 
+              question={question} 
+            />
+            )
+          }
+        </div>
       </div>
       <div className=' w-3/12 m-2'>
         <p className='font-bold text-3xl mb-5'>Categories</p>

@@ -8,10 +8,10 @@ const QuestionSolve = () => {
   useQuestion()
   return (
     <div className="flex flex-grow mt-2">
-      <div style={{ height: 'calc(100vh - 2.5rem)' }} className=" flex w-3/12 overflow-y-scroll">
+      <div style={{ height: 'calc(100vh - 5rem)' }} className=" flex w-4/12 overflow-y-scroll">
         <QuestionDescription/>
       </div>
-      <div style={{ height: 'calc(100vh - 2.5rem)' }} className="flex flex-col w-9/12">
+      <div style={{ height: 'calc(100vh - 5rem)' }} className="flex flex-col w-8/12">
         <Editor />
       </div>
     </div>
