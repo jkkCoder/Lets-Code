@@ -6,6 +6,7 @@ import Home from "./pages/Home";
 import QuestionSolve from "./pages/QuestionSolve";
 import Category from "./pages/Category";
 import NotFound from "./pages/NotFound";
+import Profile from "./pages/Profile";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
       {
         path: "*",
         element: <NotFound />
+      },
+      {
+        path: "/profile/:id",
+        element: <Profile/>
       }
     ],
   },
