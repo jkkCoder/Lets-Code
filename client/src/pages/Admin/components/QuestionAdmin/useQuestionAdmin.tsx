@@ -1,13 +1,20 @@
 import {useState} from "react"
-import { QuestionSlice } from "../../../../redux/questionSlice"
-import { APIH } from "../../../../utils/API"
+import { QuestionSlice, addQuestions, setQuestionsLoading } from "../../../../redux/questionSlice"
+import { API, APIH } from "../../../../utils/API"
 import { deleteToastMessage, successToastMessage } from "../../../../utils/constants"
+import { useDispatch } from "react-redux"
+import { useAppSelector } from "../../../../redux/storeHook"
 
 const useQuestionAdmin = () => {
+
+  const filterSelected = useAppSelector(state => state.questions.filterSelected)
+  const user  = useAppSelector(state => state.user)
 
   const [deleteModal, setDeleteModal] = useState(false)
   const [editModal, setEditModal] = useState(false)
   const [selectedTitle, setSelectedTitle] = useState<QuestionSlice>({} as QuestionSlice)
+
+  const dispatch = useDispatch()
   
   const handleDeleteCta = async (question: QuestionSlice) => {
     setSelectedTitle(question)
@@ -29,14 +36,28 @@ const useQuestionAdmin = () => {
     setEditModal(true)
   }
 
+  
+    const filterQuestions = async() => {
+      dispatch(setQuestionsLoading(true))
+      try{
+        const response = await API.get(`/question/filterQuestions?difficulty=${filterSelected?.difficultySelected.join(',')}&status=${filterSelected?.statusSelected}&userId=${user._id}`)
+        dispatch(addQuestions(response?.data?.questions))
+      }catch(err){
+
+      }finally{
+        dispatch(setQuestionsLoading(false))
+      }
+    }
+
   const deleteQuestion = async () => {
     try{
         const response = await APIH.delete('/question/' + selectedTitle?._id)
         if(response?.data?.success){
             successToastMessage('Question delete successfully')
+            filterQuestions()
         }
     }catch(err){
-        deleteToastMessage('Question not deleted, Internal server error')
+        deleteToastMessage(err?.response?.data?.message || 'Question not deleted, Internal server error')
     }finally{
         setSelectedTitle({} as QuestionSlice)
         setDeleteModal(false)
@@ -49,9 +70,11 @@ const useQuestionAdmin = () => {
             const response = await APIH.post('/question/createQuestion',formData)
             if(response?.data?.success){
                 successToastMessage('Question created successfully')
+                filterQuestions()
             }
         }catch(err){
-            deleteToastMessage('Question not created, Internal server error')
+            deleteToastMessage(err?.response?.data?.message || 'Question not created, Internal server error')
+            filterQuestions()
         }finally{
             setEditModal(false)
         }
@@ -60,10 +83,11 @@ const useQuestionAdmin = () => {
             const response = await APIH.put('/question/' +  selectedTitle?._id, {updatedQuestion: formData})
             if(response?.data?.success){
                 successToastMessage('Question edited successfully')
+                filterQuestions()
             }
 
         }catch(err){
-            deleteToastMessage('Question not edited, Internal server error')
+            deleteToastMessage(err?.response?.data?.message || 'Question not edited, Internal server error')
         }finally{
             setSelectedTitle({} as QuestionSlice)
             setEditModal(false)

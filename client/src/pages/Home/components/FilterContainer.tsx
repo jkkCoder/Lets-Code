@@ -4,7 +4,7 @@ import { difficultyOptions, statusOptions } from '../../../utils/constants'
 import FilterTip from './FilterTip'
 import { API } from '../../../utils/API'
 import { useAppDispatch, useAppSelector } from '../../../redux/storeHook'
-import { addQuestions, setQuestionsLoading } from '../../../redux/questionSlice'
+import { addFilters, addQuestions, setQuestionsLoading } from '../../../redux/questionSlice'
 import { addCategory, setCategoryLoading } from '../../../redux/categorySlice'
 
 const FilterContainer = () => {
@@ -16,6 +16,13 @@ const FilterContainer = () => {
   const [difficultySelected, setDifficultySelected] = useState<string[]>([])
   const [statusSelected, setStatusSelected] = useState<string[]>([])
   const [dropDownOpen, setDropDownOpen ] = useState("")     //contains which drop down is open currently
+
+  useEffect(() => {
+    dispatch(addFilters({
+      difficultySelected,
+      statusSelected
+    }))
+  },[difficultySelected, statusSelected])
 
   useEffect(() => {
     const getCategories = async() => {

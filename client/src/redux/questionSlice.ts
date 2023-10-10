@@ -19,6 +19,10 @@ const initialState = {
     questionsLoading: true as boolean,
     currentQuestion: {} as QuestionSlice,
     currentQuestionLoading: true as boolean,
+    filterSelected: {} as {
+        difficultySelected: string[];
+        statusSelected: string[];
+    }
 }
 
 const questionSlice = createSlice({
@@ -39,10 +43,13 @@ const questionSlice = createSlice({
         },
         setCurrentQuestionLoading: (state,action) => {
             state.currentQuestionLoading = action.payload
+        },
+        addFilters: (state,action) => {
+            state.filterSelected = action.payload
         }
     }
 })
 
 
-export const {addQuestions, addCurrentQuestion, removeCurrentQuestion,setCurrentQuestionLoading, setQuestionsLoading} = questionSlice.actions
+export const {addQuestions, addCurrentQuestion, removeCurrentQuestion,setCurrentQuestionLoading, setQuestionsLoading,addFilters} = questionSlice.actions
 export default questionSlice.reducer
