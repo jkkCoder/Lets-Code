@@ -6,7 +6,7 @@ interface CategoryNameProps{
 
 const CategoryName = ({name}:CategoryNameProps) => {
   return (
-    <span className='p-2 m-2 bg-orange-400 rounded-lg'>
+    <span className='p-2 m-2 bg-orange-400 hover:bg-orange-500 rounded-lg'>
         {name}
     </span>
   )
