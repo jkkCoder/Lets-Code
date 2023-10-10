@@ -1,12 +1,11 @@
 import { toast } from 'react-toastify';
 
-export const isValidEmail = (email) => {
+export const isValidEmail = (email:string) => {
     const emailRegex = /^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$/;
-    console.log('email is ', email)
     return emailRegex.test(email);
 }
 
-export const isValidPassword = (password) => {
+export const isValidPassword = (password:string) => {
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
     return passwordRegex.test(password);
 }

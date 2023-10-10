@@ -1,6 +1,7 @@
 import User from "../models/UserModel.js"
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
+import { isValidEmail, isValidPassword } from "../utils/constants.js"
 
 
 // POST     /user/login     PUBLIC API      
@@ -54,6 +55,14 @@ export const registerUser = async (req,res) => {
 
         if(existingUser){
             return res.status(400).json({success: false, message: "User already exists with given username or email"})
+        }
+
+        if(!isValidEmail(email)){
+            return res.status(400).json({success: false, message: "Email is not valid"})
+        }
+    
+        if(!isValidPassword(password)){
+            return res.status(400).json({success:false, message: "Password must contain one Upper case letter, alphanumeric and a special character"})
         }
 
         const hashedPassword = bcrypt.hashSync(password, 8);
