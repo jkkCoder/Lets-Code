@@ -1,3 +1,4 @@
+import Category from '../models/CategoryModel.js'
 import Question from '../models/QuestionModel.js'
 import Solution from '../models/SolutionModel.js'
 
@@ -48,10 +49,17 @@ export const updateQuestion = async (req,res) => {
 // DELETE      /question/:id      PROTECTED, ADMIN
 export const deleteQuestion = async (req,res) => {
     try{
-        const question = await Question.findByIdAndDelete(req.params.id)
+        const question = await Question.findById(req.params.id)
         if(!question){
             return res.status(400).json({success: false, message: 'Question not found'})
         }
+        
+        const category = await Category.updateMany(
+            {questions: {$in: [question._id]} },
+            {$pull : {questions : question._id} }
+        )
+
+        await Question.findByIdAndDelete(req.params.id);
 
         return res.status(200).json({success: true, message: 'Question deleted successfully'})
     }catch(err){
