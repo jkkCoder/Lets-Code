@@ -1,56 +1,21 @@
-import React, {useEffect, useState} from 'react'
-import { useAppDispatch, useAppSelector } from '../../../../redux/storeHook';
-import { API, APIH } from '../../../../utils/API';
-import { addCategory, setCategoryLoading } from '../../../../redux/categorySlice';
+import React from 'react'
+import {  useAppSelector } from '../../../../redux/storeHook';
 import Accordion from '../../../Category/components/Accordion';
-import CategoryFormModal from './components/CategoryFormModal';
-import { deleteToastMessage, successToastMessage } from '../../../../utils/constants';
+import CategoryFormModal from '../CategoryFormModal';
 import { ToastContainer } from 'react-toastify';
+import useCategoryAdmin from './useCategoryAdmin';
 
 const CategoryAdmin = () => {
   const categories = useAppSelector((state) => state.categories.categories);
-  const dispatch = useAppDispatch()
-
-  const [showFormModal, setShowFormModal] = useState(false)
-
-  const createCategory = async (name: string, questionIds: string[]) =>{
-    try{
-      const response = await APIH.post('/category/createCategory',{
-        name,
-        questions: questionIds
-      })
-      if(response?.data?.success){
-        successToastMessage('Category created successfully')
-      }
-    }catch(err){
-      deleteToastMessage(err?.response?.data?.message || 'Question not created, Internal server error')
-    }finally{
-      setShowFormModal(false)
-      getCategories()
-    }
-  }
-
-  const getCategories = async () => {
-    try {
-      const response = await API.get('/category/allCategories');
-      dispatch(addCategory(response?.data?.categories));
-    } catch (err) {
-      // Handle errors
-    } finally {
-    }
-  };
-
-  useEffect(() => {
-    getCategories();
-  }, []);
+  const {setShowFormModal, showFormModal, createCategory,handleEdit,modalClose, selectedCategory} = useCategoryAdmin()
 
   return (
-    <div className='mt-2'>
+    <div>
       <button onClick={() => {setShowFormModal(true)}} className='text-white p-2 bg-black my-2 rounded-sm'>Create Category</button>
-      <Accordion categories={categories} />
+      <Accordion categories={categories} showEdit editCta={handleEdit}/>
 
       <ToastContainer />
-      {showFormModal && <CategoryFormModal onClose={() => {setShowFormModal(false)}} onSubmit={createCategory}/>}
+      {showFormModal && <CategoryFormModal selectedCategory={selectedCategory}  onClose={modalClose} onSubmit={createCategory}/>}
     </div>
   )
 }

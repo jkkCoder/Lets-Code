@@ -62,7 +62,7 @@ export const deleteQuestionFromCategory = async (req, res) => {
             {new:true}
         )
         if(!updatedCategory){
-            return res.status(400).json({success: true, message: "category not found"})
+            return res.status(400).json({success: false, message: "category not found"})
         }
         return res.status(200).json({success: true, message: "question deleted from category"})
     }catch(err){
@@ -85,7 +85,26 @@ export const addQuestionToCategory = async (req,res) => {
             {new: true}
         )
         if(!updatedCategory){
-            return res.status(400).json({success: true, message: "category not found"})
+            return res.status(400).json({success: false, message: "category not found"})
+        }
+        return res.status(200).json({success: true, message: "questions added to category"})
+    }catch(err){
+        return res.status(500).json({success: false, message: 'Internal Server Error'})
+    }
+}
+
+// PUT         /category/updateQuestionsInCategory/:questionId       ADMIN
+export const updateQuestionsInCategory = async (req,res) => {
+    const {categoryId} = req.params
+    const {questions} = req.body
+    try{
+        const updatedCategory = await Category.findByIdAndUpdate(
+            categoryId,
+            { $set: { questions: questions } },
+            { new: true } 
+        );
+        if(!updatedCategory){
+            return res.status(400).json({success: false, message: "category not found"})
         }
         return res.status(200).json({success: true, message: "questions added to category"})
     }catch(err){

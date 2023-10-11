@@ -26,8 +26,8 @@ const QuestionContainer = ({number, question, showEdit = false, handleDeleteCta,
         </p>
         {
             showEdit && <>
-                <MdOutlineEdit className="mr-10 cursor-pointer" onClick={(e) => handleEditCta()}/>
-                <MdDelete className='cursor-pointer'  onClick={(e) => handleDeleteCta()}/>
+                <MdOutlineEdit className="mr-10 cursor-pointer" onClick={handleEditCta}/>
+                <MdDelete className='cursor-pointer'  onClick={handleDeleteCta}/>
             </>
         }
     </div>
