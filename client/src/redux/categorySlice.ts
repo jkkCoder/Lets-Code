@@ -1,10 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit"
 import { QuestionSlice } from "./questionSlice"
 
-interface CategorySlice {
+export interface CategorySlice {
     _id: string
     name: string
-    question: QuestionSlice[]
+    questions: QuestionSlice[]
 }
 
 const initialState  = {
