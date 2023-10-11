@@ -23,8 +23,10 @@ export const createCategory = async ( req, res) => {
         const {questions, name} = req.body
         console.log({questions,name})
 
-        if(!questions || questions.length == 0){
-            return res.status(400).json({success: false, message: 'There should be atleast one question'})
+
+        //take atleast five questions
+        if(!questions || questions.length < 5){
+            return res.status(400).json({success: false, message: 'There should be atleast five questions'})
         }
 
         const newCategory = await new Category({
@@ -44,5 +46,46 @@ export const createCategory = async ( req, res) => {
     }catch(err){
         console.log('err is ', err)
         res.status(500).json({success: false, message: 'Internal Server Error'})
+    }
+}
+
+// DELETE       /category/deleteQuesFromCategory/:categoryId/:questionId      ADMIN
+export const deleteQuestionFromCategory = async (req, res) => {
+    const {categoryId, questionId} = req.params
+    try{
+        const updatedCategory = await Category.findByIdAndUpdate(
+            categoryId,
+            {$pull: {questions: questionId}},
+            {new:true}
+        )
+        if(!updatedCategory){
+            return res.status(400).json({success: true, message: "category not found"})
+        }
+        return res.status(200).json({success: true, message: "question deleted from category"})
+    }catch(err){
+        return res.status(500).json({success: false, message: 'Internal Server Error'})
+    } 
+}
+
+
+// POST         /category/addQuestionToCategory/:questionId       ADMIN
+export const addQuestionToCategory = async (req,res) => {
+    const {categoryId} = req.params
+    const {questions} = req.body
+    if(!questions || questions.length === 0){
+        return res.status(400).json({success: false, message: 'There should be atleast one questions'})
+    }
+    try{
+        const updatedCategory = await Category.findByIdAndUpdate(
+            categoryId,
+            {$push: {questions: questions} },
+            {new: true}
+        )
+        if(!updatedCategory){
+            return res.status(400).json({success: true, message: "category not found"})
+        }
+        return res.status(200).json({success: true, message: "questions added to category"})
+    }catch(err){
+        return res.status(500).json({success: false, message: 'Internal Server Error'})
     }
 }
