@@ -42,7 +42,7 @@ const QuestionFormModal = ({ onClose, onSubmit, selectedQuestion }:QuestionFormM
 
   const addTestCase = () => {
     const lastTestCase = formData?.testCases[formData?.testCases?.length - 1]
-    if(lastTestCase["input"] === "" || lastTestCase["expectedOutput"] === "" || lastTestCase["explanation"] === "")
+    if(lastTestCase["input"] === "" || lastTestCase["expectedOutput"] === "" )
         return;       
     const updatedFormData = deepCopy(formData);
     updatedFormData.testCases.push(initialTestCase);

@@ -21,8 +21,11 @@ export const fetchAllCategories =  async(req,res) => {
 export const createCategory = async ( req, res) => {
     try{
         const {questions, name} = req.body
-        console.log({questions,name})
 
+
+        if(!name && name.length === 0){
+            return res.status(400).json({success: false, message: "Name is an required field"})
+        }
 
         //take atleast five questions
         if(!questions || questions.length < 5){

@@ -12,7 +12,7 @@ const QuestionDescription = () => {
 
   if(currentQuestionLoading) return <QuestionDetailSkeleton />
   return (
-    <div className='flex flex-col'>
+    <div className='flex flex-col pr-5'>
         <p className='font-bold text-2xl'>{capitalizeFirstLetter(title)}</p>
         <div className='flex items-centers mt-2'>
             <p className={`self-center ${difficulty === 'easy' ? `text-[#28B5B0]` : difficulty === 'medium'? `text-[#FFC218]`: `text-[#FF2D55]`}`}>
