@@ -31,6 +31,7 @@ const useLogin = () => {
         emailAddress: "",
         passWord: ""
     })
+    const [disabled, setDisabled] = useState(false);
 
     const toggleSignInForm = () => {
         setErrorMessage('')
@@ -39,13 +40,14 @@ const useLogin = () => {
     }
 
     const handleCta = async () => {
-        setErrorMessage('')
-        if(isSignIn){
+        setDisabled(true);
+        setErrorMessage('')       
+        if(isSignIn){            
             if(!formData.emailAddress || !formData.passWord){
                 setErrorMessage('Please provide all required fields')
                 return;
             }
-            try{
+            try{                
                 const response = await API.post('/user/login', {
                     loginField: formData.emailAddress,
                     password: formData.passWord,        
@@ -105,12 +107,13 @@ const useLogin = () => {
                 if(err?.response?.status === 400 || err?.response?.status === 500){
                     setErrorMessage(err?.response?.data?.message)
                 }
-            }            
+            }                       
         }
+        setDisabled(false);
     }
     
     return {
-        isSignIn, errorMessage, formData, setFormData, toggleSignInForm, handleCta
+        isSignIn, errorMessage, formData, setFormData, toggleSignInForm, handleCta, disabled
     }
 
 }

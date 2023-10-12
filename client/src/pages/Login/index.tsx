@@ -3,7 +3,7 @@ import useLogin from './useLogin';
 
 const Login = () => {
 
-    const {isSignIn, errorMessage, formData, setFormData, toggleSignInForm, handleCta} = useLogin()
+    const {isSignIn, errorMessage, formData, setFormData, toggleSignInForm, handleCta, disabled} = useLogin()
 
     return (
             <div className="mt-16 flex items-center justify-center">
@@ -56,7 +56,8 @@ const Login = () => {
                         />
                         <button
                             onClick={handleCta}
-                            className="w-full bg-orange-500 text-white py-2 rounded-md hover:bg-orange-600"
+                            disabled = {disabled}
+                            className={`w-full ${disabled ? `bg-orange-300` : `bg-orange-500`} text-white py-2 rounded-md hover:bg-orange-600`}
                         >
                             {isSignIn ? 'Sign In' : 'Sign Up'}
                         </button>
