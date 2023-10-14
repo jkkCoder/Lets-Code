@@ -2,6 +2,7 @@ import React, {useState} from "react"
 import QuestionContainer from "../../Home/components/QuestionContainer";
 import { QuestionSlice } from "../../../redux/questionSlice";
 import {MdOutlineEdit} from "react-icons/md"
+import { Link } from "react-router-dom";
 
 interface AccordionItemsInterface{
     name: string;
@@ -31,7 +32,9 @@ const AccordionItems = ({ name, questions, id, showEdit, editCta,index }: Accord
                 {isOpen && (
                 <div className="mt-4">
                     {questions.map((question, index: number) => (
-                    <QuestionContainer key={question?._id} number={index + 1} question={question} />
+                        <Link key={question?._id} to={`/solve/${question?._id}`}>
+                            <QuestionContainer number={index + 1} question={question} />
+                        </Link>
                     ))}
                 </div>
                 )}
