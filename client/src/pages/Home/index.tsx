@@ -40,7 +40,7 @@ const Home = () => {
         <div className='flex my-2 flex-wrap'>
           {categoryLoading && <CategorySkeleton />}
           {!categoryLoading && categories.map(category => (
-            <Link key={category?._id} to={`/category?=name=${category?.name}`}>
+            <Link key={category?._id} to={`/category?name=${category?.name}`}>
                 <CategoryName name={category?.name}/>
             </Link>
           ))}

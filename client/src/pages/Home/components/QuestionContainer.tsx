@@ -17,7 +17,7 @@ const QuestionContainer = ({number, question, showEdit = false, handleDeleteCta,
   return (
     <div className={`${number % 2 === 0 ? `bg-[white]` : `bg-[#F3F4F6]`} flex p-1`}>
         <div className='flex w-9/12 hover:text-blue-700'>
-            <p className='mr-5'>{`${number}) `}</p>
+            <p className='mr-2 w-8'>{`${number}) `}</p>
             <p className=''>{question?.title}</p>
         </div>
         <p 

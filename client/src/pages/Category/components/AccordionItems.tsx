@@ -9,9 +9,10 @@ interface AccordionItemsInterface{
     questions: QuestionSlice[];
     showEdit?: boolean;
     editCta?: (id:string, name:string, questions: QuestionSlice[]) => void;
+    index:number;
 }
 
-const AccordionItems = ({ name, questions, id, showEdit, editCta }: AccordionItemsInterface) => {
+const AccordionItems = ({ name, questions, id, showEdit, editCta,index }: AccordionItemsInterface) => {
     const [isOpen, setIsOpen] = useState(false);
   
     const handleToggle = () => {
@@ -23,7 +24,7 @@ const AccordionItems = ({ name, questions, id, showEdit, editCta }: AccordionIte
     return (
         <div className="flex">
             <div className="border rounded-lg shadow-lg p-4 mb-4 mt-4 w-11/12">
-                <div className="flex justify-between items-center cursor-pointer" onClick={handleToggle}>
+                <div id={`accordion-${index}`} className="flex justify-between items-center cursor-pointer" onClick={handleToggle}>
                 <p className="font-semibold text-gray-800">{name?.toLocaleUpperCase()}</p>
                 <p className="text-xl text-gray-600">{isOpen ? "−" : "+"}</p>
                 </div>
