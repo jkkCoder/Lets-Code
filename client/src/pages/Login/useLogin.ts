@@ -12,7 +12,7 @@ const useLogin = () => {
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
     const prevScreen = queryParams.get('prevScreen');
-
+    const type = queryParams.get('type')
     const user = useAppSelector(state => state.user)
 
     useEffect(() => {
@@ -23,7 +23,7 @@ const useLogin = () => {
     },[])
     
     const navigate = useNavigate()
-    const [isSignIn, setSignIn] = useState(true);
+    const [isSignIn, setSignIn] = useState(type === "SignUp" ? false : true);
     const [errorMessage, setErrorMessage] = useState("")
     const [formData, setFormData] = useState({
         fullName: "",
