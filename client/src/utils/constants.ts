@@ -49,4 +49,4 @@ export const deleteToastMessage = (message: string) => {
   });
 };
 
-export const questionsPerPage = 5;
+export const questionsPerPage = 15;

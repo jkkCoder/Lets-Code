@@ -6,8 +6,9 @@ import QuestionContainerSkeleton from "./components/QuestionSkeleton";
 import CategoryName from "./components/CategoryName";
 import { Link } from "react-router-dom";
 import CategorySkeleton from "./components/CategorySkeleton";
-import Pagination from "react-js-pagination";
 import { questionsPerPage } from "../../utils/constants";
+import ResponsivePagination from 'react-responsive-pagination';
+import 'react-responsive-pagination/themes/classic.css';
 
 const Home = () => {
   const questions = useAppSelector((state) => state.questions.questions);
@@ -20,19 +21,13 @@ const Home = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalQuestions, setTotalQuestions] = useState(1);
 
-
-  const handlePageNumber = (pageNumber : number ) => {
-    setCurrentPage(pageNumber);
-  };
-
   return (
     <div className="flex flex-row mt-4">
-      <div className=" ml-5 w-9/12 min-h-[12rem]">
+      <div style={{ height: "calc(100vh - 7rem)" }} className=" ml-5 w-9/12 min-h-[12rem]">
         {/* api calls to fetch question and categories made inside filterContainer component */}
-        <FilterContainer currentPage={currentPage} setTotalQuestions={setTotalQuestions}/>
+        <FilterContainer currentPage={currentPage} setTotalQuestions={setTotalQuestions} setCurrentPage={setCurrentPage}/>
         <div
-          style={{ maxHeight: "calc(100vh - 9rem)" }}
-          className="min-h-[12rem] overflow-y-scroll"
+          style={{ height: "calc(100vh - 15rem)" }}
         >
           {questionsLoading && <QuestionContainerSkeleton />}
           {!questionsLoading &&
@@ -42,13 +37,11 @@ const Home = () => {
               </Link>
             ))}
         </div>
-        <div>
-          <Pagination
-            activePage={currentPage}
-            itemsCountPerPage={questionsPerPage}
-            totalItemsCount={totalQuestions}
-            pageRangeDisplayed={3}
-            onChange={(number : number) => handlePageNumber(number)}
+        <div className="relative bottom-0">
+          <ResponsivePagination
+            current={currentPage}
+            total={Math.ceil(totalQuestions/questionsPerPage)}
+            onPageChange={setCurrentPage}
           />
         </div>
       </div>

@@ -7,8 +7,9 @@ import { ToastContainer } from 'react-toastify';
 import QuestionFormModal from '../QuestionFormModal'
 import useQuestionAdmin from './useQuestionAdmin'
 import { useAppSelector } from '../../../../redux/storeHook'
-import Pagination from "react-js-pagination";
 import { questionsPerPage } from '../../../../utils/constants'
+import ResponsivePagination from 'react-responsive-pagination';
+import 'react-responsive-pagination/themes/classic.css';
 
 
 const QuestionAdmin = () => {
@@ -31,17 +32,14 @@ const QuestionAdmin = () => {
 
   const [currentPage, setCurrentPage] = useState(1);
   const [totalQuestions, setTotalQuestions] = useState(1);
-  
-  const handlePageNumber = (pageNumber : number ) => {
-    setCurrentPage(pageNumber);
-  };
+
 
   return (
     <div>
         <button onClick={() => setEditModal(true)} className='text-white p-2 bg-black my-2 rounded-sm'>Create Question</button>
         <div>
-            <FilterContainer currentPage={currentPage} setTotalQuestions={setTotalQuestions}/>
-            <div style={{ maxHeight: 'calc(100vh - 9rem)' }} className='min-h-[12rem] overflow-y-scroll'>
+            <FilterContainer currentPage={currentPage} setTotalQuestions={setTotalQuestions} setCurrentPage={setCurrentPage}/>
+            <div style={{ maxHeight: 'calc(100vh - 9rem)' }} className='min-h-[12rem]'>
             { questionsLoading && <QuestionContainerSkeleton /> }
             {
                 !questionsLoading && questions.map((question,index) => <QuestionContainer
@@ -56,13 +54,11 @@ const QuestionAdmin = () => {
             }
             </div>
             <div>
-          <Pagination
-            activePage={currentPage}
-            itemsCountPerPage={questionsPerPage}
-            totalItemsCount={totalQuestions}
-            pageRangeDisplayed={3}
-            onChange={(number : number) => handlePageNumber(number)}
-          />
+            <ResponsivePagination
+              current={currentPage}
+              total={Math.ceil(totalQuestions/questionsPerPage)}
+              onPageChange={setCurrentPage}
+            />
         </div>
         </div>
 

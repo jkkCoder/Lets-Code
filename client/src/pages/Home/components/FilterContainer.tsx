@@ -10,9 +10,10 @@ import { addCategory, setCategoryLoading } from '../../../redux/categorySlice'
 interface FilterContainerProps {
   currentPage : number
   setTotalQuestions : React.Dispatch<React.SetStateAction<number>>
+  setCurrentPage : React.Dispatch<React.SetStateAction<number>>
 }
 
-const FilterContainer = ({currentPage, setTotalQuestions}:FilterContainerProps) => {
+const FilterContainer = ({currentPage, setTotalQuestions, setCurrentPage}:FilterContainerProps) => {
 
   const user = useAppSelector( state => state.user )
   const questions = useAppSelector(state => state.questions.questions)
@@ -45,6 +46,10 @@ const FilterContainer = ({currentPage, setTotalQuestions}:FilterContainerProps) 
       getCategories()
     }
   },[])
+
+  useEffect(() => {
+    setCurrentPage(1)
+  },[difficultySelected, statusSelected])
 
   useEffect(() => {
     dispatch(setQuestionsLoading(true))
