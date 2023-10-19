@@ -2,6 +2,7 @@ import React from 'react'
 import CodeEditor from '@monaco-editor/react';
 import useEditor from './useEditor';
 import Output from '../Output';
+import { ToastContainer } from 'react-toastify';
 
 
 const Editor = () => {
@@ -24,6 +25,7 @@ const Editor = () => {
             />
         </div>
         <Output codeOutput={codeOutput} submitLoading={submitLoading} onSubmit={handleCodeSubmit}/>
+        <ToastContainer />
     </>
   )
 }
