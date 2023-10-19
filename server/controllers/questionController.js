@@ -95,9 +95,8 @@ export const createQuestion = async (req,res) => {
 export const filterQuestions = async(req,res) => {
 
     try{
-        const {difficulty, status, userId} = req.query
-
-        const query = {};
+        const {difficulty, status, userId, page = 1, itemsPerPage} = req.query
+        const query = {}
         if(difficulty){
             query.difficulty = {$in: difficulty.split(',')}
         }
@@ -110,11 +109,24 @@ export const filterQuestions = async(req,res) => {
 
             query._id = status === 'solved' ?  { $in: questionIds } : {$nin: questionIds };
         }
-        
-        const questions = await Question.find(query);
+
+        //paginate
+        let questions;
+        if(itemsPerPage){
+            const pageInt = parseInt(page)
+            const itemsPerPageInt = parseInt(itemsPerPage)
+            const skip = (pageInt-1) * itemsPerPageInt
+            questions = await Question.find(query).skip(skip).limit(itemsPerPageInt)
+        }else{
+            questions = await Question.find(query);
+        }
+
+        const totalQuestions = await Question.find(query).countDocuments()
+
         return res.json({
             success: true,
-            questions
+            questions,
+            totalQuestions : totalQuestions
         });
     }catch(err){
         console.log("error is ", err)
