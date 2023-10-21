@@ -47,12 +47,13 @@ const server = createServer(app)
 const io = new Server(server);
 
 io.on("connection", (socket) => {
-  socket.on("join", ({userName, session}, errorCallback) => {
+  socket.on("join", ({userName, session}, errorCallback, successCallBack) => {
     const {user,error} = addUser(session, userName,socket.id)
     if(error){
       errorCallback(error)
       return;
     }
+    successCallBack()
 
     socket.join(user?.room)    //adding user(socket) to given room
     const users = getUsersInRoom(user.room)

@@ -19,9 +19,10 @@ const useEditor = () => {
     const navigate = useNavigate()
     const queryParams = new URLSearchParams(location.search);
     const session = queryParams.get('session');
-    const user = useAppSelector(state => state.user)
+        const user = useAppSelector(state => state.user)
     const [roomMembers, setRoomMembers] = useState([])
     const [shouldSync, setShouldSync] = useState(true)
+    const [socketConnected, setSocketConnected] = useState(false)
 
 
     const [languageSelected, setLanguageSelected] = useState('c')
@@ -51,7 +52,11 @@ const useEditor = () => {
           deleteToastMessage(error)
           navigate(location.pathname)
         }
-      });
+        }, () => {
+          //success callback
+          setSocketConnected(true)
+        }
+      );
 
       socketRef.current.on('roomMembers', ({users}) => {      
         setRoomMembers(users)
@@ -73,9 +78,12 @@ const useEditor = () => {
         socketRef.current.off('receiveCode')
         socketRef.current.off('receiveLanguage')
       };
-    },[user])
+    },[user, session])
 
     useEffect(() => {
+      if(!session){
+        return;
+      }
       socketRef.current.on('joined', ({userName, socketId}) => {
         successToastMessage(`${userName} joined`)
         socketRef.current.emit('sync-code', {code,languageSelected , socketId})
@@ -140,8 +148,18 @@ const useEditor = () => {
         }
     }
 
+    const handleRoomCta = () => {
+      if(socketConnected){
+        navigator.clipboard.writeText(window.location.href);
+        successToastMessage("Room's Link Copied")
+      }else{
+        navigate(`${location.pathname}?session=${user?._id}`)
+      }
+    }
+
     return {
-        handleLanguage, getLanguage, code, setCode, handleCodeSubmit, submitLoading, codeOutput, languageSelected
+        handleLanguage, getLanguage, code, setCode, handleCodeSubmit, submitLoading,
+        codeOutput, languageSelected,socketConnected, handleRoomCta, roomMembers
     }
   
 }
