@@ -1,6 +1,7 @@
 import Category from '../models/CategoryModel.js'
 import Question from '../models/QuestionModel.js'
 import Solution from '../models/SolutionModel.js'
+import User from '../models/UserModel.js'
 
 // GET      /question/getQuestions      PUBLIC
 export const fetchQuestions = async (req,res) => {
@@ -142,6 +143,28 @@ export const searchQuestion = async (req,res) => {
         const questions = await Question.find({ title: { $regex: regex } }).select('title description difficulty').limit(15)
 
         res.json({ questions });
+    }catch(err){
+        console.log("error is ",err)
+        return res.status(500).json({success: false, message: 'Internal Server Error'})
+    }
+}
+
+// GET      /question/searchProf     PUBLIC
+export const searchProfile = async (req,res) => {
+    try{
+        const {query} = req.query
+        const regex = new RegExp(query, "i");
+        const questions = await Question.find({ title: { $regex: regex } }).select('title description difficulty').limit(15)
+        const profile = await User.find({
+            $or: [
+              { userName: { $regex: regex } },
+              { fullName: { $regex: regex } },
+              { email: { $regex: regex } },
+            ],
+          }).select('userName fullName').limit(15);
+      
+
+        res.json({ questions, profile });
     }catch(err){
         console.log("error is ",err)
         return res.status(500).json({success: false, message: 'Internal Server Error'})
