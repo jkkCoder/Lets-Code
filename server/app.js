@@ -6,6 +6,9 @@ import questionRouter from "./routes/questionRoute.js"
 import categoryRouter from "./routes/categoryRoute.js"
 import cors from "cors"
 import solutionRouter from "./routes/solutionRoute.js"
+import { createServer } from "http"
+import  {Server} from "socket.io"
+import { addUser, getUser, getUsersInRoom, removeUser } from './utils/userSocket.js'
 const app = express()
 
 const PORT = 5000
@@ -39,7 +42,51 @@ app.use('/question', questionRouter)
 app.use('/category', categoryRouter)
 app.use('/solution', solutionRouter)
 
+
+const server = createServer(app)
+const io = new Server(server);
+
+io.on("connection", (socket) => {
+  socket.on("join", ({userName, session}, errorCallback) => {
+    const {user,error} = addUser(session, userName,socket.id)
+    if(error){
+      errorCallback(error)
+      return;
+    }
+
+    socket.join(user?.room)    //adding user(socket) to given room
+    const users = getUsersInRoom(user.room)
+    io.to(user?.room).emit('roomMembers', {users, room : user.room})
+    socket.broadcast.to(user?.room).emit('joined', {
+      userName,
+      socketId: socket.id
+    })
+  })
+
+  socket.on('sendCode', (code) => {
+    const user = getUser(socket.id)
+    socket.broadcast.to(user?.room).emit('receiveCode', code)
+  })
+
+  socket.on('sync-code', ({code, languageSelected, socketId}) => {
+    io.to(socketId).emit('receiveLanguage', languageSelected)
+    io.to(socketId).emit('receiveCode', code)
+  })
+
+  socket.on('sendLanguage', (language) => {
+    const user = getUser(socket.id)
+    socket.broadcast.to(user?.room).emit('receiveLanguage', language)
+  })
+
+  socket.on('disconnect', () => {
+    const user = removeUser(socket.id)
+    if(user){
+      const users = getUsersInRoom(user.room)
+      io.to(user.room).emit('roomMembers', {users, room : user.room})
+    }
+  })
+})
     
-app.listen(PORT, () => {
+server.listen(PORT, () => {
     console.log('app running at port ', PORT)
 })

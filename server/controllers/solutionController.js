@@ -10,7 +10,7 @@ export const compileCode = async(req,res) => {
 
         for (const testCase of question.testCases) {
             //running compiler for each testcase and comparing the actual and expected ouput
-            const result = await runCodeCompiler(lang, code, testCase.input.split(' ').join(' \n '))
+            const result = await runOnlineCodeCompiler(lang, code, testCase.input.split(' ').join(' \n '))
             if(!result.success){
                 return res.status(400).json({
                     success: false,

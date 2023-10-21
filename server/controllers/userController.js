@@ -30,7 +30,8 @@ export const loginUser = async(req,res) => {
                 userName: existingUser?.userName,
                 email: existingUser?.email,
                 isAdmin: existingUser?.isAdmin,
-                fullName: existingUser?.fullName
+                fullName: existingUser?.fullName,
+                _id: existingUser?._id
             }})
         }
 
@@ -80,7 +81,8 @@ export const registerUser = async (req,res) => {
             userName: user?.userName,
             email: user?.email,
             isAdmin: user?.isAdmin,
-            fullName: user?.fullName
+            fullName: user?.fullName,
+            _id: user?._id
         }})
 
 
