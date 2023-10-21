@@ -72,7 +72,13 @@ const useEditor = () => {
         setLanguageSelected(lang)
       })
 
+      socketRef.current.on('leaveMessage',({username}) => {
+        deleteToastMessage(`${username} left`)
+      })
+
       return () => {
+        setRoomMembers([])
+        setSocketConnected(false)
         socketRef.current.disconnect();
         socketRef.current.off('roomMembers')
         socketRef.current.off('receiveCode')

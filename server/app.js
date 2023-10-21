@@ -84,6 +84,7 @@ io.on("connection", (socket) => {
     if(user){
       const users = getUsersInRoom(user.room)
       io.to(user.room).emit('roomMembers', {users, room : user.room})
+      io.to(user.room).emit('leaveMessage', {username: user.username})
     }
   })
 })
