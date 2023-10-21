@@ -19,7 +19,6 @@ export const addUser = (room, username, id) => {
     }
 
     users.push(user)
-    console.log("user is ", users)
     return {user}
 }
 
