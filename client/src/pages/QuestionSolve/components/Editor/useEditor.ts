@@ -3,7 +3,7 @@ import { defaultLanguageCode, deleteToastMessage, successToastMessage } from "..
 import { APIH, ENDPOINT } from "../../../../utils/API"
 import { useAppSelector } from "../../../../redux/storeHook"
 import io from 'socket.io-client';
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 export interface codeOutputProps {
     success: boolean,
@@ -16,6 +16,7 @@ export interface codeOutputProps {
 const useEditor = () => {
     const socketRef:any = useRef()
     const location = useLocation();
+    const params = useParams();
     const navigate = useNavigate()
     const queryParams = new URLSearchParams(location.search);
     const session = queryParams.get('session');
@@ -47,7 +48,7 @@ const useEditor = () => {
       socketRef.current.on('connect_error', (err:string) => deleteToastMessage(err))
       socketRef.current.on('connect_failed', (err:string) => deleteToastMessage(err))
 
-      socketRef.current.emit('join', { userName , session }, (error:string) => {
+      socketRef.current.emit('join', { userName ,session: session + params.id }, (error:string) => {
         if (error) {
           deleteToastMessage(error)
           navigate(location.pathname)

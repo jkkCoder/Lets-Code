@@ -1,7 +1,6 @@
 let users = []      //{room, username,id}
 
 export const addUser = (room, username, id) => {
-    console.log("adding user ", {room,username,id})
     username = username?.trim().toLowerCase()
     room = room?.trim().toLowerCase()
 

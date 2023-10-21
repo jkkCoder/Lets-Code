@@ -39,7 +39,7 @@ const Editor = () => {
                   onClick={handleRoomCta}
                 >{socketConnected ? "Copy Room's Link" : "Invite Friends"}</button>
                 <div className='ml-5'>
-                  {roomMembers?.map(member => <Avatar className='mr-2' name={member?.username} size='30' round />)}
+                  {roomMembers?.map(member => <Avatar key={member?.username} className='mr-2' name={member?.username} size='30' round />)}
                 </div>
 
               </>
