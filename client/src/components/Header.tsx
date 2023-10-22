@@ -8,7 +8,7 @@ const Header = () => {
   const dispatch = useAppDispatch();
   const user = useAppSelector(state => state.user)
 
-  const isLoggedIn = user.email.length > 0
+  const isLoggedIn = user?.email?.length > 0
   const [searchInput, setSearchInput] = useState("");
 
   const handleLogout = () => {

@@ -38,7 +38,7 @@ const useEditor = () => {
         return;
       }
       const {email, userName} = user
-      if(email.length === 0){    //not logged in
+      if(email?.length === 0){    //not logged in
         //show popup to login or else navigate to question page
 
       }
@@ -102,7 +102,7 @@ const useEditor = () => {
     }, [code,languageSelected])
 
     useEffect(() => {
-      if(user.email.length === 0){   
+      if(user?.email?.length === 0){   
         return;
       }
       if(!session && !socketRef.current){
@@ -118,7 +118,7 @@ const useEditor = () => {
   
     useEffect(() => {
       setCode(defaultLanguageCode[languageSelected])
-      if(user.email.length === 0){   
+      if(user?.email?.length === 0){   
         return;
       }
       if(!session && !socketRef.current){
