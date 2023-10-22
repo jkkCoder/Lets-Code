@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import FilterContainer from '../../../Home/components/FilterContainer'
 import QuestionContainerSkeleton from '../../../Home/components/QuestionSkeleton'
 import QuestionContainer from '../../../Home/components/QuestionContainer'
@@ -7,6 +7,9 @@ import { ToastContainer } from 'react-toastify';
 import QuestionFormModal from '../QuestionFormModal'
 import useQuestionAdmin from './useQuestionAdmin'
 import { useAppSelector } from '../../../../redux/storeHook'
+import { questionsPerPage } from '../../../../utils/constants'
+import ResponsivePagination from 'react-responsive-pagination';
+import 'react-responsive-pagination/themes/classic.css';
 
 
 const QuestionAdmin = () => {
@@ -27,12 +30,16 @@ const QuestionAdmin = () => {
   const questions = useAppSelector(state => state.questions.questions)
   const questionsLoading = useAppSelector(state => state.questions.questionsLoading)
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalQuestions, setTotalQuestions] = useState(1);
+
+
   return (
     <div>
         <button onClick={() => setEditModal(true)} className='text-white p-2 bg-black my-2 rounded-sm'>Create Question</button>
         <div>
-            <FilterContainer />
-            <div style={{ maxHeight: 'calc(100vh - 9rem)' }} className='min-h-[12rem] overflow-y-scroll'>
+            <FilterContainer currentPage={currentPage} setTotalQuestions={setTotalQuestions} setCurrentPage={setCurrentPage}/>
+            <div style={{ maxHeight: 'calc(100vh - 9rem)' }} className='min-h-[12rem]'>
             { questionsLoading && <QuestionContainerSkeleton /> }
             {
                 !questionsLoading && questions.map((question,index) => <QuestionContainer
@@ -46,6 +53,13 @@ const QuestionAdmin = () => {
                 )
             }
             </div>
+            <div>
+            <ResponsivePagination
+              current={currentPage}
+              total={Math.ceil(totalQuestions/questionsPerPage)}
+              onPageChange={setCurrentPage}
+            />
+        </div>
         </div>
 
         <Modal 

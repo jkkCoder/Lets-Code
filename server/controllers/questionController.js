@@ -1,6 +1,7 @@
 import Category from '../models/CategoryModel.js'
 import Question from '../models/QuestionModel.js'
 import Solution from '../models/SolutionModel.js'
+import User from '../models/UserModel.js'
 
 // GET      /question/getQuestions      PUBLIC
 export const fetchQuestions = async (req,res) => {
@@ -95,9 +96,8 @@ export const createQuestion = async (req,res) => {
 export const filterQuestions = async(req,res) => {
 
     try{
-        const {difficulty, status, userId} = req.query
-
-        const query = {};
+        const {difficulty, status, userId, page = 1, itemsPerPage} = req.query
+        const query = {}
         if(difficulty){
             query.difficulty = {$in: difficulty.split(',')}
         }
@@ -110,11 +110,24 @@ export const filterQuestions = async(req,res) => {
 
             query._id = status === 'solved' ?  { $in: questionIds } : {$nin: questionIds };
         }
-        
-        const questions = await Question.find(query);
+
+        //paginate
+        let questions;
+        if(itemsPerPage){
+            const pageInt = parseInt(page)
+            const itemsPerPageInt = parseInt(itemsPerPage)
+            const skip = (pageInt-1) * itemsPerPageInt
+            questions = await Question.find(query).skip(skip).limit(itemsPerPageInt)
+        }else{
+            questions = await Question.find(query);
+        }
+
+        const totalQuestions = await Question.find(query).countDocuments()
+
         return res.json({
             success: true,
-            questions
+            questions,
+            totalQuestions : totalQuestions
         });
     }catch(err){
         console.log("error is ", err)
@@ -130,6 +143,28 @@ export const searchQuestion = async (req,res) => {
         const questions = await Question.find({ title: { $regex: regex } }).select('title description difficulty').limit(15)
 
         res.json({ questions });
+    }catch(err){
+        console.log("error is ",err)
+        return res.status(500).json({success: false, message: 'Internal Server Error'})
+    }
+}
+
+// GET      /question/searchProf     PUBLIC
+export const searchProfile = async (req,res) => {
+    try{
+        const {query} = req.query
+        const regex = new RegExp(query, "i");
+        const questions = await Question.find({ title: { $regex: regex } }).select('title description difficulty').limit(15)
+        const profile = await User.find({
+            $or: [
+              { userName: { $regex: regex } },
+              { fullName: { $regex: regex } },
+              { email: { $regex: regex } },
+            ],
+          }).select('userName fullName').limit(15);
+      
+
+        res.json({ questions, profile });
     }catch(err){
         console.log("error is ",err)
         return res.status(500).json({success: false, message: 'Internal Server Error'})

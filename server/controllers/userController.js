@@ -1,7 +1,9 @@
 import User from "../models/UserModel.js"
+import Solution from "../models/SolutionModel.js"
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
 import { isValidEmail, isValidPassword } from "../utils/constants.js"
+import Question from "../models/QuestionModel.js"
 
 
 // POST     /user/login     PUBLIC API      
@@ -105,5 +107,44 @@ export const getUserByToken = async (req, res) => {
         })
     }catch(err) {
         return res.status(500).json({success: false, message: "Internal server error", userPayload: {}})
+    }
+}
+
+// GET     /user/profile/:userId     PUBLIC API      
+export const userProfile = async (req,res) => {
+    const {userId} = req.params
+    try{
+        const user = await User.findById(userId).select('userName fullName email')
+
+        const solvedQuestions = await Solution.find({user: userId}).select('question').populate('question','title difficulty')
+        const easySolvedQuestions = solvedQuestions.filter(question => question?.question?.difficulty === 'easy')
+        const mediumSolvedQuestions = solvedQuestions.filter(question => question?.question?.difficulty === 'medium')
+        const hardSolvedQuestions = solvedQuestions.filter(question => question?.question?.difficulty === 'hard')
+
+
+        const totalEasy = await Question.find({difficulty: "easy"}).countDocuments()
+        const totalMedium = await Question.find({difficulty: "medium"}).countDocuments()
+        const totalHard = await Question.find({difficulty: "hard"}).countDocuments()
+
+        return res.json({
+            success: true, 
+            userData:user, 
+            solved:{
+                easy : easySolvedQuestions,
+                medium: mediumSolvedQuestions,
+                hard: hardSolvedQuestions
+            },
+            solvedStatistics: {
+                easySolved: easySolvedQuestions.length,
+                mediumSolved: mediumSolvedQuestions.length,
+                hardSolved: hardSolvedQuestions.length,
+                totalEasy,
+                totalMedium,
+                totalHard
+            }
+
+        })
+    }catch(err){
+        return res.status(500).json({success: false, message: "Internal server error"})
     }
 }

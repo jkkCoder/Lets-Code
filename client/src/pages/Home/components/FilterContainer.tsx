@@ -1,13 +1,19 @@
 import React,{useEffect, useState} from 'react'
 import Filter from './Filter'
-import { difficultyOptions, statusOptions } from '../../../utils/constants'
+import { difficultyOptions, questionsPerPage, statusOptions } from '../../../utils/constants'
 import FilterTip from './FilterTip'
 import { API } from '../../../utils/API'
 import { useAppDispatch, useAppSelector } from '../../../redux/storeHook'
 import { addFilters, addQuestions, setQuestionsLoading } from '../../../redux/questionSlice'
 import { addCategory, setCategoryLoading } from '../../../redux/categorySlice'
 
-const FilterContainer = () => {
+interface FilterContainerProps {
+  currentPage : number
+  setTotalQuestions : React.Dispatch<React.SetStateAction<number>>
+  setCurrentPage : React.Dispatch<React.SetStateAction<number>>
+}
+
+const FilterContainer = ({currentPage, setTotalQuestions, setCurrentPage}:FilterContainerProps) => {
 
   const user = useAppSelector( state => state.user )
   const questions = useAppSelector(state => state.questions.questions)
@@ -42,10 +48,15 @@ const FilterContainer = () => {
   },[])
 
   useEffect(() => {
+    setCurrentPage(1)
+  },[difficultySelected, statusSelected])
+
+  useEffect(() => {
     dispatch(setQuestionsLoading(true))
     const filterQuestions = async() => {
       try{
-        const response = await API.get(`/question/filterQuestions?difficulty=${difficultySelected.join(',')}&status=${statusSelected}&userId=${user._id}`)
+        const response = await API.get(`/question/filterQuestions?difficulty=${difficultySelected.join(',')}&status=${statusSelected}&userId=${user._id}&itemsPerPage=${questionsPerPage}&page=${currentPage}`)
+        setTotalQuestions(response?.data?.totalQuestions);
         dispatch(addQuestions(response?.data?.questions))
       }catch(err){
 
@@ -55,7 +66,7 @@ const FilterContainer = () => {
     }
     
     filterQuestions()
-  },[difficultySelected, statusSelected])
+  },[difficultySelected, statusSelected, currentPage])
   
   const handleDifficultyClick = (option:string) => {
     if(difficultySelected.includes(option)){
