@@ -148,3 +148,35 @@ export const userProfile = async (req,res) => {
         return res.status(500).json({success: false, message: "Internal server error"})
     }
 }
+
+// GET     /user/editProfile/:userId     PROTECTED      
+export const editProfile = async (req,res) => {
+    const {updatedUser} = req.body
+    if(req.user._id.toString() !== req.params.id){
+        return res.status(400).json({success: false, message: 'You can only edit your profile'})
+    }
+
+    const updateFields = {};
+    if (!!updatedUser?.userName) {
+        updateFields.userName = updatedUser.userName;
+    }
+
+    if (!!updatedUser?.fullName) {
+        updateFields.fullName = updatedUser.fullName;
+    }
+
+    try{
+        const user = await User.findByIdAndUpdate(req.params.id, updateFields, 
+            {
+                new: true
+            }
+        )
+        if(!user){
+            return res.status(400).json({success: false, message: 'User not found'})
+        }
+
+        return res.status(200).json({success: true, message: 'Updated successfully'})
+    }catch(err){
+        return res.status(500).json({success: false, message: 'Internal Server Error'})
+    }
+}
