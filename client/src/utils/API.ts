@@ -1,4 +1,5 @@
 import axios from "axios";
+import { QuestionSlice } from "../redux/questionSlice";
 
 const API_DEV_ENDPOINT = 'http://127.0.0.1:5000'
 const API_PROD_ENDPOINT = ''
@@ -19,3 +20,25 @@ export const APIH = axios.create({
     },
 
 })
+
+export interface ProfileDataInterface {
+    success: boolean;
+    solvedStatistics : {
+      easySolved: number;
+      hardSolved: number;
+      mediumSolved: number;
+      totalEasy: number;
+      totalHard: number;
+      totalMedium: number;
+    }
+    userData: {
+        userName: string
+        email: string    
+        fullName: string
+    };
+    solved: {
+       easy: QuestionSlice[];
+       medium: QuestionSlice[];
+       hard: QuestionSlice[];
+    }
+  }
