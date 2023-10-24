@@ -30,6 +30,7 @@ export interface ProfileDataInterface {
       totalEasy: number;
       totalHard: number;
       totalMedium: number;
+      unSolved: number;
     }
     userData: {
         userName: string

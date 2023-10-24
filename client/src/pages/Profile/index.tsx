@@ -27,20 +27,13 @@ const Profile = () => {
   console.log('user data is',userData);
 
   return (
-    <div className='flex h-screen bg-red-200'>
-      <div className='bg-yellow-200 w-1/2'>
+    <div className='flex h-screen'>
+      <div className='w-1/2'>
         <div className='bg-orange-200 h-1/2'>
           <UserData userName={userData?.userData?.userName} fullName={userData?.userData?.fullName} emailId={userData?.userData?.email} />
         </div>
-        <div className='bg-blue-200 h-1/2'>
-          <UserStatistics 
-            easySolved={userData?.solvedStatistics?.easySolved} 
-            hardSolved={userData?.solvedStatistics?.hardSolved} 
-            mediumSolved={userData?.solvedStatistics?.mediumSolved} 
-            totalEasy={userData?.solvedStatistics?.totalEasy} 
-            totalHard={userData?.solvedStatistics?.totalHard} 
-            totalMedium={userData?.solvedStatistics?.totalMedium} 
-          />
+        <div className='mt-5'>
+          <UserStatistics solvedStatistics={userData?.solvedStatistics}/>
         </div>
       </div>
       <div className='bg-gray-200 w-1/2'>

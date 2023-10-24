@@ -33,6 +33,10 @@ const useLogin = () => {
     })
     const [disabled, setDisabled] = useState(false);
 
+    useEffect(() => {
+        setSignIn(type === 'SignUp' ? false : true)
+    },[type])
+
     const toggleSignInForm = () => {
         setErrorMessage('')
         setFormData(prev => ({...prev, emailAddress: "", passWord: ""}))
