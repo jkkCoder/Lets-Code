@@ -3,6 +3,7 @@ import { API, ProfileDataInterface } from '../../utils/API'
 import { useAppSelector } from '../../redux/storeHook'
 import UserData from './components/UserData'
 import UserStatistics from './components/UserStatistics'
+import SolvedQuestions from './components/SolvedQuestions'
 
 const Profile = () => {
 
@@ -44,7 +45,7 @@ const Profile = () => {
         </div>
       </div>
       <div className='bg-gray-200 w-1/2'>
-          solvedQuestions
+          <SolvedQuestions solvedQuestions={userData?.solved}/>
       </div>
     </div>
   )

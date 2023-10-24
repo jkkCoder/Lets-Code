@@ -8,7 +8,7 @@ interface UserDataProps {
 
 const UserData = ({userName, fullName, emailId}:UserDataProps) => {
   
-    console.log(fullName)
+    // console.log(fullName)
     
     return (
         <>
