@@ -3,6 +3,7 @@ import { AiOutlineSearch } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../redux/storeHook";
 import { logout } from "../redux/userSlice";
+import Modal from "./Modal";
 
 const Header = () => {
   const dispatch = useAppDispatch();
@@ -10,10 +11,12 @@ const Header = () => {
 
   const isLoggedIn = user?.email?.length > 0
   const [searchInput, setSearchInput] = useState("");
+  const [logoutModal, setLogoutModal] = useState(false)
 
   const handleLogout = () => {
     localStorage.removeItem('token')
     dispatch(logout())
+    setLogoutModal(false)
   }
 
   return (
@@ -62,9 +65,20 @@ const Header = () => {
           <Link to={"/profile/"+user._id} className="ml-4 text-white hover:text-blue-500 transition duration-300 ease-in-out">
             Profile
           </Link>
-          <button onClick={handleLogout} className="bg-orange-500 hover:bg-orange-600 text-white py-2 px-4 rounded-md transition duration-300 ease-in-out">
+          <button onClick={() => setLogoutModal(true)} className="bg-orange-500 hover:bg-orange-600 text-white py-2 px-4 rounded-md transition duration-300 ease-in-out">
             Logout
           </button>
+
+          <Modal
+            onClose={() => setLogoutModal(false)}
+            showModal={logoutModal} 
+            primaryBtnName="Yes"
+            secondaryBtnName="No"
+            title={'Are you sure you want to Logout'}
+            primaryCta={handleLogout}
+            secondaryCta={() => setLogoutModal(false)}
+
+          />
         </>
         }
       </div>
