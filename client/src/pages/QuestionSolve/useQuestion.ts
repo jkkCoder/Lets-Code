@@ -24,5 +24,5 @@ export const useQuestion = () => {
     }
     fetchQuestsionData()
 
-  },[])
+  },[params])
 }

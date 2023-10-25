@@ -1,11 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit"
 
-interface UserSlice {
+export interface UserSlice {
     _id: string
     userName: string
     email: string
     isAdmin: boolean | null
-    fullname: string
+    fullName: string
 }
 
 const initialState : UserSlice = {
@@ -13,7 +13,7 @@ const initialState : UserSlice = {
     userName : '',
     email: '',
     isAdmin: null,
-    fullname: ''
+    fullName: ''
 }
 
 const userSlice = createSlice({

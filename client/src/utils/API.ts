@@ -1,4 +1,6 @@
 import axios from "axios";
+import { UserSlice } from "../redux/userSlice";
+import { QuestionSlice } from "../redux/questionSlice";
 
 const API_DEV_ENDPOINT = 'http://127.0.0.1:5000'
 const API_PROD_ENDPOINT = ''
@@ -19,3 +21,8 @@ export const APIH = axios.create({
     },
 
 })
+
+export interface searchSuggestionAPI{
+    profile: UserSlice[],
+    questions: QuestionSlice[]
+}

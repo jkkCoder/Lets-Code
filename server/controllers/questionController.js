@@ -154,14 +154,14 @@ export const searchProfile = async (req,res) => {
     try{
         const {query} = req.query
         const regex = new RegExp(query, "i");
-        const questions = await Question.find({ title: { $regex: regex } }).select('title description difficulty').limit(15)
+        const questions = await Question.find({ title: { $regex: regex } }).select('title description difficulty').limit(7)
         const profile = await User.find({
             $or: [
               { userName: { $regex: regex } },
               { fullName: { $regex: regex } },
               { email: { $regex: regex } },
             ],
-          }).select('userName fullName').limit(15);
+          }).select('userName fullName').limit(7);
       
 
         res.json({ questions, profile });
