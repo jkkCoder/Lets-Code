@@ -38,7 +38,7 @@ const UserStatistics = ({solvedStatistics}:UserStatisticsProps) => {
     ],
   };
   return (
-    <div className='  h-80 w-[80%] m-auto border-solid border-gray-300 border rounded shadow-lg'>
+    <div className='  h-80 w-[80%] mx-auto border-solid border-gray-300 border rounded shadow-lg'>
       <div className='flex flex-col mt-14'>
         <p className='ml-2 text-gray-500'>Solved Questions</p>
         <div className='flex flex-row justify-center items-center'>

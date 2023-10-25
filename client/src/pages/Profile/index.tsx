@@ -4,12 +4,14 @@ import { useAppSelector } from '../../redux/storeHook'
 import UserData from './components/UserData'
 import UserStatistics from './components/UserStatistics'
 import SolvedQuestions from './components/SolvedQuestions'
+import { capitalizeFirstLetter } from '../../utils/constants'
+import ProfileSkeleton from './components/ProfileSkeleton'
 
 const Profile = () => {
 
   const user = useAppSelector(state => state.user)
 
-  const [userData, setUserData] = useState<ProfileDataInterface>({} as ProfileDataInterface);
+  const [userData, setUserData] = useState<ProfileDataInterface>(undefined);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -27,13 +29,16 @@ const Profile = () => {
 
   console.log('user data is',userData);
 
+  if(!userData) return <ProfileSkeleton />
+
   return (
-    <div className='flex h-screen'>
+    <div  style={{ height: "calc(100vh - 7rem)" }} className=' mt-10 flex h-screen'>
       <div className='w-1/2'>
-        <div className='mt-20 mx-20 h-1/2'>
+        <div className=' mx-20 h-1/2'>
+          <p className='font-bold text-lg'>{capitalizeFirstLetter(userData?.userData?.fullName)} Details</p>
           <UserData userName={userData?.userData?.userName} fullName={userData?.userData?.fullName} emailId={userData?.userData?.email} />
         </div>
-        <div className='mt-5'>
+        <div>
           <UserStatistics solvedStatistics={userData?.solvedStatistics}/>
         </div>
       </div>
