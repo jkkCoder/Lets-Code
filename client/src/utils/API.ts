@@ -38,8 +38,17 @@ export interface ProfileDataInterface {
         fullName: string
     };
     solved: {
-       easy: QuestionSlice[];
-       medium: QuestionSlice[];
-       hard: QuestionSlice[];
+       easy: {
+        _id:string
+        question:QuestionSlice
+       }[];
+       medium: {
+        _id:string
+        question:QuestionSlice
+       }[];
+       hard: {
+        _id:string
+        question:QuestionSlice
+       }[];
     }
   }
