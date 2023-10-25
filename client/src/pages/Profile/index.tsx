@@ -30,14 +30,14 @@ const Profile = () => {
   return (
     <div className='flex h-screen'>
       <div className='w-1/2'>
-        <div className='bg-orange-200 h-1/2'>
+        <div className='mt-20 mx-20 h-1/2'>
           <UserData userName={userData?.userData?.userName} fullName={userData?.userData?.fullName} emailId={userData?.userData?.email} />
         </div>
         <div className='mt-5'>
           <UserStatistics solvedStatistics={userData?.solvedStatistics}/>
         </div>
       </div>
-      <div className='bg-gray-200 w-1/2'>
+      <div className='w-1/2'>
           <SolvedQuestions solvedQuestions={userData?.solved}/>
       </div>
     </div>
