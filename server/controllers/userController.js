@@ -140,7 +140,8 @@ export const userProfile = async (req,res) => {
                 hardSolved: hardSolvedQuestions.length,
                 totalEasy,
                 totalMedium,
-                totalHard
+                totalHard,
+                unSolved: totalEasy + totalMedium + totalHard - easySolvedQuestions.length - mediumSolvedQuestions.length - hardSolvedQuestions.length
             }
 
         })
