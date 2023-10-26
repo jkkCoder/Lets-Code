@@ -6,26 +6,29 @@ import UserStatistics from './components/UserStatistics'
 import SolvedQuestions from './components/SolvedQuestions'
 import { capitalizeFirstLetter } from '../../utils/constants'
 import ProfileSkeleton from './components/ProfileSkeleton'
+import { useParams } from 'react-router-dom'
 
 const Profile = () => {
 
-  const user = useAppSelector(state => state.user)
+  const params = useParams();
+
+  
 
   const [userData, setUserData] = useState<ProfileDataInterface>(undefined);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    if(!user?._id){
+    if(!params?.id){
       return
     }
     const fetchProfile = async () => {
       setIsLoading(true);
-      const res = await API.get("/user/profile/"+user._id)
+      const res = await API.get("/user/profile/"+params?.id)
       setUserData(res?.data);
       setIsLoading(false);
     }
     fetchProfile();
-  },[user])
+  },[params ])
 
   console.log('user data is',userData);
 
