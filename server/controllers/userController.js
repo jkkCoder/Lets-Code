@@ -181,3 +181,20 @@ export const editProfile = async (req,res) => {
         return res.status(500).json({success: false, message: 'Internal Server Error'})
     }
 }
+
+// GET      /question/getBookmarks     PROTECTED
+export const getBookmarks = async (req,res) => {
+    console.log('in here')
+    try{
+        const user = await User.findById(req.user._id).populate('bookmarks', 'title description difficulty')
+
+        if(!user){
+            return res.status(400).json({success: false, message: 'User not found'})
+        }
+
+        return res.status(200).json({success: true, bookmarks: user.bookmarks})
+    }catch(err){
+        console.log("error is ",err)
+        return res.status(500).json({success: false, message: 'Internal Server Error'})
+    }
+}

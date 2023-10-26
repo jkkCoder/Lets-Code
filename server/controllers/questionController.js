@@ -170,3 +170,37 @@ export const searchProfile = async (req,res) => {
         return res.status(500).json({success: false, message: 'Internal Server Error'})
     }
 }
+
+// POST      /question/user/bookmarkQuestion     PROTECTED
+export const bookmarkQuestion = async ( req, res ) => {
+    const {questionId} = req.body
+    try{
+        const user = await User.findById(req.user._id)
+        const question = await Question.findById(questionId)
+
+        if(!user){
+            return res.status(400).json({success: false, message: 'User not found'})
+        }
+
+
+        if(!question){
+            return res.status(400).json({success: false, message: 'Question not found'})
+        }
+
+        if(!user.bookmarks.includes(questionId)){
+            user.bookmarks.push(questionId)
+        }
+
+        if(!question.bookmarkedBy.includes(user._id)){
+            question.bookmarkedBy.push(user._id)
+        }
+
+        await user.save()
+        await question.save()
+
+        return res.status(200).json({success: true, message: 'Question Bookmarked'})
+    }catch(err) {
+        console.log("error is ",err)
+        return res.status(500).json({success: false, message: 'Internal Server Error'})
+    }
+}

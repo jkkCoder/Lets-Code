@@ -33,7 +33,13 @@ const QuestionSchema = new mongoose.Schema({
     Category: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Category'
-    }
+    },
+    bookmarkedBy: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User',
+        },
+    ]
 })
 
 const Question = mongoose.model('Question', QuestionSchema)
