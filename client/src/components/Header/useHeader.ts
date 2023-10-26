@@ -42,6 +42,7 @@ const useHeader = () => {
 
   useEffect(() => {
     setSearchInput('')
+    setSearchSuggestions(undefined)
     setShowSuggestion(false)
     setIsSearchOpen(false)
   },[location])

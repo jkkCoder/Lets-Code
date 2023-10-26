@@ -26,3 +26,34 @@ export interface searchSuggestionAPI{
     profile: UserSlice[],
     questions: QuestionSlice[]
 }
+export interface ProfileDataInterface {
+    success: boolean;
+    solvedStatistics : {
+      easySolved: number;
+      hardSolved: number;
+      mediumSolved: number;
+      totalEasy: number;
+      totalHard: number;
+      totalMedium: number;
+      unSolved: number;
+    }
+    userData: {
+        userName: string
+        email: string    
+        fullName: string
+    };
+    solved: {
+       easy: {
+        _id:string
+        question:QuestionSlice
+       }[];
+       medium: {
+        _id:string
+        question:QuestionSlice
+       }[];
+       hard: {
+        _id:string
+        question:QuestionSlice
+       }[];
+    }
+  }
