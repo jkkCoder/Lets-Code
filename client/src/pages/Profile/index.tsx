@@ -7,13 +7,12 @@ import SolvedQuestions from './components/SolvedQuestions'
 import { capitalizeFirstLetter } from '../../utils/constants'
 import ProfileSkeleton from './components/ProfileSkeleton'
 import { useParams } from 'react-router-dom'
+import BookMarks from './components/BookMark'
 
 const Profile = () => {
 
   const params = useParams();
-
-  
-
+  const user = useAppSelector(state=>state.user)
   const [userData, setUserData] = useState<ProfileDataInterface>(undefined);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -28,7 +27,7 @@ const Profile = () => {
       setIsLoading(false);
     }
     fetchProfile();
-  },[params ])
+  },[params])
 
   console.log('user data is',userData);
 
@@ -46,7 +45,15 @@ const Profile = () => {
         </div>
       </div>
       <div className='w-1/2'>
-          <SolvedQuestions solvedQuestions={userData?.solved}/>
+        <div className='h-1/2'>
+            <SolvedQuestions solvedQuestions={userData?.solved}/>
+        </div>
+        {
+        params.id === user._id && 
+        <div className='h-1/2'>
+          <BookMarks />
+        </div>
+        }
       </div>
     </div>
   )

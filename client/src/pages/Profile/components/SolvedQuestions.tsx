@@ -27,7 +27,7 @@ const SolvedQuestions = ({ solvedQuestions }: SolvedQuestionProps) => {
   };
 
   return (
-    <div className=' border border-gray-100 rounded-md shadow-lg h-1/2 px-4 py-2'>
+    <div className=' border border-gray-100 rounded-md shadow-lg h-[90%] px-4 py-2'>
       <div className="mb-4">
         <h1 className="text-xl font-semibold mb-2">Solved Questions</h1>
         <div className="flex space-x-4">
