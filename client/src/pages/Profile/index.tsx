@@ -31,7 +31,7 @@ const Profile = () => {
 
   console.log('user data is',userData);
 
-  if(!userData) return <ProfileSkeleton />
+  if(isLoading) return <ProfileSkeleton />
 
   return (
     <div  style={{ height: "calc(100vh - 7rem)" }} className=' mt-10 flex h-screen'>
