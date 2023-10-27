@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { QuestionSlice } from '../../../../redux/questionSlice';
 import { API } from '../../../../utils/API';
 import { selectedCategoryInterface } from '../CategoryAdmin/useCategoryAdmin';
+import { ToastContainer } from 'react-toastify';
+import { deleteToastMessage } from '../../../../utils/constants';
 
 interface SearchModalProps {
     selectedCategory: selectedCategoryInterface
@@ -30,6 +32,7 @@ const SearchModal = ({ selectedCategory, onClose, onSubmit }: SearchModalProps) 
       const response = await API.get('/question/search?query=' + searchQuery);
       setQuestions(response?.data?.questions || []);
     } catch (err) {
+      deleteToastMessage(err?.response?.data?.message || 'SERVER ERROR')    
     } finally {
       setQuestionLoading(false);
     }
@@ -67,6 +70,8 @@ const SearchModal = ({ selectedCategory, onClose, onSubmit }: SearchModalProps) 
         return 'border-gray-300';
     }
   };
+
+  <ToastContainer />
 
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50 bg-opacity-50 bg-gray-900 overflow-y-scroll">
