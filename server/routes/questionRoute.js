@@ -1,5 +1,5 @@
 import {Router} from "express"
-import { bookmarkQuestion, createQuestion, deleteQuestion, fetchQuestionData, fetchQuestions, filterQuestions, searchProfile, searchQuestion, updateQuestion } from "../controllers/questionController.js";
+import { bookmarkQuestion, createQuestion, deleteQuestion, fetchQuestionData, fetchQuestions, filterQuestions, isBookmarkedByUser, searchProfile, searchQuestion, updateQuestion } from "../controllers/questionController.js";
 import { admin, requireLogin } from "../middleware/authMiddleware.js";
 
 const router = Router();
@@ -12,6 +12,7 @@ router.route('/:id')
     .get(fetchQuestionData)
     .put(requireLogin, admin, updateQuestion)        //admin protected
     .delete(requireLogin, admin, deleteQuestion)     //admin protected
+router.get('/:questionId/bookmarkedByUser', requireLogin, isBookmarkedByUser)    
 
 router.post('/createQuestion', requireLogin, admin, createQuestion)  //admin protected
 router.post('/bookmarkQuestion', requireLogin, bookmarkQuestion)

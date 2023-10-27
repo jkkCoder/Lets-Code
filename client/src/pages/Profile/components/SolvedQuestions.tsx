@@ -48,7 +48,7 @@ const SolvedQuestions = ({ solvedQuestions }: SolvedQuestionProps) => {
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-0.5 overflow-y-scroll h-[70%]">
+      <div className="grid grid-cols-2 gap-0.5 overflow-y-scroll">
         {solvedQuestions?.[activeTab]?.map((solvedQuestion:{_id:string,question: QuestionSlice}) => (
           <div key={solvedQuestion?._id} className="mb-4">
             <h2 className="text-base font-semibold mb-2 cursor-pointer">
