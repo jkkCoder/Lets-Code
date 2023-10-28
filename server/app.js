@@ -8,7 +8,7 @@ import cors from "cors"
 import solutionRouter from "./routes/solutionRoute.js"
 import { createServer } from "http"
 import  {Server} from "socket.io"
-import { addUser, getUser, getUsersInRoom, removeUser } from './utils/userSocket.js'
+import { addUser, checkUsernameAlreadyInRoom, getUser, getUsersInRoom, removeUser } from './utils/userSocket.js'
 const app = express()
 
 const PORT = 5000
@@ -48,6 +48,13 @@ const io = new Server(server);
 
 io.on("connection", (socket) => {
   socket.on("join", ({userName, session}, errorCallback, successCallBack) => {
+
+    const userInRoom = checkUsernameAlreadyInRoom(userName, session)
+
+    if(userInRoom){
+      socket.emit("duplicateEntry", {message: "You're already in this room"})
+      return;
+    }
     const {user,error} = addUser(session, userName,socket.id)
     if(error){
       errorCallback(error)

@@ -16,7 +16,7 @@ const useLogin = () => {
     const user = useAppSelector(state => state.user)
 
     useEffect(() => {
-        if(user?.email?.length > 0){
+        if(user?._id?.length > 0){
              //this means user exists, and is signed in
             navigate('/')
         }

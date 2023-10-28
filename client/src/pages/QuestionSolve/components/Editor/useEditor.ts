@@ -37,10 +37,10 @@ const useEditor = () => {
       if(!session){
         return;
       }
-      const {email, userName} = user
-      if(email?.length === 0){    //not logged in
+      const {userName} = user
+      if(user?._id?.length === 0){    //not logged in
         //show popup to login or else navigate to question page
-
+        
       }
 
       socketRef.current = io(ENDPOINT);
@@ -63,6 +63,11 @@ const useEditor = () => {
         setRoomMembers(users)
       })
 
+      socketRef.current.on('duplicateEntry', ({message}) => {
+        successToastMessage(message)
+        navigate(location.pathname)
+      })
+
       socketRef.current.on('receiveCode', (code:string) => {
         setShouldSync(false)
         setCode(code)
@@ -74,7 +79,8 @@ const useEditor = () => {
       })
 
       socketRef.current.on('leaveMessage',({username}) => {
-        deleteToastMessage(`${username} left`)
+        if(username !== '')
+          deleteToastMessage(`${username} left`)
       })
 
       return () => {
@@ -84,6 +90,7 @@ const useEditor = () => {
         socketRef.current.off('roomMembers')
         socketRef.current.off('receiveCode')
         socketRef.current.off('receiveLanguage')
+        socketRef.current.off('duplicateEntry')
       };
     },[user, session])
 
@@ -92,7 +99,8 @@ const useEditor = () => {
         return;
       }
       socketRef.current.on('joined', ({userName, socketId}) => {
-        successToastMessage(`${userName} joined`)
+        if(userName !== '')
+          successToastMessage(`${userName} joined`)
         socketRef.current.emit('sync-code', {code,languageSelected , socketId})
       })
 
@@ -102,7 +110,7 @@ const useEditor = () => {
     }, [code,languageSelected])
 
     useEffect(() => {
-      if(user?.email?.length === 0){   
+      if(user?._id?.length === 0){   
         return;
       }
       if(!session && !socketRef.current){
@@ -118,7 +126,7 @@ const useEditor = () => {
   
     useEffect(() => {
       setCode(defaultLanguageCode[languageSelected])
-      if(user?.email?.length === 0){   
+      if(user?._id?.length === 0){   
         return;
       }
       if(!session && !socketRef.current){

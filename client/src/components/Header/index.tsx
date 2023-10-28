@@ -8,7 +8,7 @@ import useHeader from "./useHeader";
 
 const Header = () => {
   const user = useAppSelector(state => state.user);
-  const isLoggedIn = user?.email?.length > 0;
+  const isLoggedIn = user?._id?.length > 0;
   const 
   {searchInput,setShowSuggestion,setSearchInput,handleSearchCta, searchSuggestions,showSuggestions, routeProfile ,routeQuestion, isSearchOpen, setIsSearchOpen, logoutModal, setLogoutModal , handleLogout }
    = useHeader()

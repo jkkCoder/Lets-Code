@@ -21,6 +21,11 @@ export const addUser = (room, username, id) => {
     return {user}
 }
 
+export const checkUsernameAlreadyInRoom = (username, session) => {
+    const user = users.find(user => user.username === username && user.room === session)
+    return user
+}
+
 export const getUser = (id) => {
     const user = users.find(user => user.id === id)
     return user
