@@ -5,10 +5,12 @@ import Output from '../Output';
 import { ToastContainer } from 'react-toastify';
 import { useAppSelector } from '../../../../redux/storeHook';
 import Avatar from 'react-avatar';
+import PrimaryModal from '../../../../components/PrimaryModal';
 
 
 const Editor = () => {
   const user = useAppSelector(state => state.user)
+  
   const { 
     handleLanguage, 
     languageSelected, 
@@ -20,7 +22,11 @@ const Editor = () => {
     codeOutput, 
     socketConnected,
     handleRoomCta,
-    roomMembers
+    roomMembers,
+    session,
+    isLoggedin,
+    navigateToLogin,
+    goBackCta
   } = useEditor()
   return (
     <>
@@ -45,14 +51,24 @@ const Editor = () => {
               </>
             }
           </div>
+          {
+              session && !isLoggedin ? (
+                <PrimaryModal 
+                  clickCta={navigateToLogin}
+                  message='Only Logged in Users can join the room, Please Login'
+                  btnName='Login now'
+                  goBackCta={goBackCta}
+                />
+              ) : <CodeEditor
+                    height="calc(100% - 42px)"
+                    theme="vs-dark"
+                    language={getLanguage()}
+                    value={code}
+                    onChange={(value) => setCode(value)}
+                  />
+
+            }
             
-            <CodeEditor
-                height="calc(100% - 42px)"
-                theme="vs-dark"
-                language={getLanguage()}
-                value={code}
-                onChange={(value) => setCode(value)}
-            />
         </div>
         <Output codeOutput={codeOutput} submitLoading={submitLoading} onSubmit={handleCodeSubmit}/>
     </>

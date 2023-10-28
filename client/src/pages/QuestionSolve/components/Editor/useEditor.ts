@@ -32,16 +32,13 @@ const useEditor = () => {
     const [submitLoading, setSubmitLoading] = useState(false)
 
     const questionId = useAppSelector(state => state.questions.currentQuestion._id)
+    const isLoggedin = user?._id?.length > 0
 
     useEffect(() => {
       if(!session){
         return;
       }
       const {userName} = user
-      if(user?._id?.length === 0){    //not logged in
-        //show popup to login or else navigate to question page
-        
-      }
 
       socketRef.current = io(ENDPOINT);
 
@@ -110,7 +107,7 @@ const useEditor = () => {
     }, [code,languageSelected])
 
     useEffect(() => {
-      if(user?._id?.length === 0){   
+      if(!isLoggedin){   
         return;
       }
       if(!session && !socketRef.current){
@@ -126,7 +123,7 @@ const useEditor = () => {
   
     useEffect(() => {
       setCode(defaultLanguageCode[languageSelected])
-      if(user?._id?.length === 0){   
+      if(!isLoggedin){   
         return;
       }
       if(!session && !socketRef.current){
@@ -172,9 +169,17 @@ const useEditor = () => {
       }
     }
 
+    const navigateToLogin = () => {
+      navigate(`/login?prevScreen=${location.pathname}?session=${session}`)
+    }
+
+    const goBackCta = () => {
+      navigate(location.pathname)
+    }
+
     return {
-        handleLanguage, getLanguage, code, setCode, handleCodeSubmit, submitLoading,
-        codeOutput, languageSelected,socketConnected, handleRoomCta, roomMembers
+        handleLanguage, getLanguage, code, setCode, handleCodeSubmit, submitLoading, isLoggedin, goBackCta,
+        codeOutput, languageSelected,socketConnected, handleRoomCta, roomMembers, session, navigateToLogin
     }
   
 }
