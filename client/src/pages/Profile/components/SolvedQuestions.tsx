@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { QuestionSlice } from '../../../redux/questionSlice';
 import { capitalizeFirstLetter, difficultyOptions } from '../../../utils/constants';
+import SolvedQuestionsSkeleton from './SolvedQuestionSkeleton';
 
 interface SolvedQuestionProps {
   solvedQuestions: {
@@ -17,14 +18,18 @@ interface SolvedQuestionProps {
       question: QuestionSlice;
     }[];
   };
+  isLoading: boolean
 }
 
-const SolvedQuestions = ({ solvedQuestions }: SolvedQuestionProps) => {
+const SolvedQuestions = ({isLoading, solvedQuestions }: SolvedQuestionProps) => {
+
   const [activeTab, setActiveTab] = useState('easy');
 
   const handleTabClick = (tab:string) => {
     setActiveTab(tab);
   };
+
+  if(isLoading) return <SolvedQuestionsSkeleton />
 
   return (
     <div className=' border border-gray-100 rounded-md shadow-lg h-[90%] px-4 py-2'>

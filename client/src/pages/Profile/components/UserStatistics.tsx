@@ -2,6 +2,7 @@ import React from 'react'
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
 import { Line } from 'rc-progress';
+import UserStatisticsSkeleton from './UserStatisticsSkeleton';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -15,9 +16,12 @@ interface UserStatisticsProps {
     totalMedium : number
     unSolved: number
   }
+  isLoading: boolean
 }
 
-const UserStatistics = ({solvedStatistics}:UserStatisticsProps) => {
+const UserStatistics = ({isLoading, solvedStatistics}:UserStatisticsProps) => {
+
+  if(isLoading) return <UserStatisticsSkeleton />
 
   const {easySolved, mediumSolved, hardSolved, totalEasy, totalHard, totalMedium, unSolved} = solvedStatistics || {}
 
