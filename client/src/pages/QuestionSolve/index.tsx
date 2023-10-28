@@ -5,7 +5,7 @@ import Editor from "./components/Editor/index";
 import { ToastContainer } from 'react-toastify';
 
 const QuestionSolve = () => {
-  <ToastContainer />
+  
   useQuestion()
   return (
     <div className="flex flex-grow mt-2">

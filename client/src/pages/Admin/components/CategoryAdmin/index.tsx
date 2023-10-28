@@ -14,7 +14,6 @@ const CategoryAdmin = () => {
       <button onClick={() => {setShowFormModal(true)}} className='text-white p-2 bg-black my-2 rounded-sm'>Create Category</button>
       <Accordion categories={categories} showEdit editCta={handleEdit}/>
 
-      <ToastContainer />
       {showFormModal && <CategoryFormModal selectedCategory={selectedCategory}  onClose={modalClose} onSubmit={createCategory}/>}
     </div>
   )

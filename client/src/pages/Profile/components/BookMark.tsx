@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { APIH, BookMarkDataInterface } from "../../../utils/API";
 import BookMarkSkeleton from "./BookMarkSkeleton";
 import { Link } from "react-router-dom";
+import { deleteToastMessage } from "../../../utils/constants";
 
 const BookMarks = () => {
 
@@ -11,11 +12,16 @@ const BookMarks = () => {
 
   useEffect(()=>{
     const fetchBookMarks = async () => {
-      setIsLoading(true);
-      const res = await APIH.get("/user/getBookmarks")
-      console.log("BookMarks : ",res);
-      setBookMArks(res?.data)
-      setIsLoading(false);
+      try{
+        setIsLoading(true);
+        const res = await APIH.get("/user/getBookmarks")
+        console.log("BookMarks : ",res);
+        setBookMArks(res?.data)
+      }catch(err){
+        deleteToastMessage(err?.response?.data?.message || 'SERVER ERROR')
+      }finally{
+        setIsLoading(false)
+      }
     }
     fetchBookMarks();
   },[])

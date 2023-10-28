@@ -55,7 +55,6 @@ const Editor = () => {
             />
         </div>
         <Output codeOutput={codeOutput} submitLoading={submitLoading} onSubmit={handleCodeSubmit}/>
-        <ToastContainer />
     </>
   )
 }

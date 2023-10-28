@@ -62,7 +62,7 @@ const useCategoryAdmin = () => {
       const response = await API.get('/category/allCategories');
       dispatch(addCategory(response?.data?.categories));
     } catch (err) {
-      // Handle errors
+        deleteToastMessage(err?.response?.data?.message || 'SERVER ERROR')
     } finally {
     }
   };

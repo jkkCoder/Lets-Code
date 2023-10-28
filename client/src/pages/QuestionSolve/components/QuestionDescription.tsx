@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useAppSelector } from '../../../redux/storeHook'
-import { capitalizeFirstLetter } from '../../../utils/constants'
+import { capitalizeFirstLetter, deleteToastMessage } from '../../../utils/constants'
 import Testcase from './Testcase'
 import QuestionDetailSkeleton from './QuestionDescriptionSkeleton'
 import {BsFillBookmarkFill, BsBookmark} from "react-icons/bs"
@@ -25,7 +25,7 @@ const QuestionDescription = () => {
            const response = await APIH.get(`/question/${params.id}/bookmarkedByUser`)
            setIsBookmark(response?.data?.isBookmarked)
         }catch(err){
-
+          deleteToastMessage(err?.response?.data?.message || 'SERVER ERROR')
         }
      }
     }
@@ -43,7 +43,7 @@ const QuestionDescription = () => {
           type: isBookmark ? 'pull' : 'push'
         })
       }catch(err){
-
+        deleteToastMessage(err?.response?.data?.message || 'SERVER ERROR')
       }finally{
         setBookmarkLoading(false)
       }

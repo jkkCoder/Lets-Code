@@ -71,7 +71,6 @@ const SearchModal = ({ selectedCategory, onClose, onSubmit }: SearchModalProps) 
     }
   };
 
-  <ToastContainer />
 
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50 bg-opacity-50 bg-gray-900 overflow-y-scroll">

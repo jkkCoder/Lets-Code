@@ -149,7 +149,7 @@ const useEditor = () => {
             })
             setCodeOutput(response?.data)
         }catch(err){
-
+          deleteToastMessage(err?.response?.data?.message || 'SERVER ERROR')
         }finally{
             setSubmitLoading(false)
         }
