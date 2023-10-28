@@ -9,6 +9,7 @@ import CategorySkeleton from "./components/CategorySkeleton";
 import { questionsPerPage } from "../../utils/constants";
 import ResponsivePagination from 'react-responsive-pagination';
 import 'react-responsive-pagination/themes/classic.css';
+import { ToastContainer } from 'react-toastify';
 
 const Home = () => {
   const questions = useAppSelector((state) => state.questions.questions);
@@ -20,6 +21,8 @@ const Home = () => {
 
   const [currentPage, setCurrentPage] = useState(1);
   const [totalQuestions, setTotalQuestions] = useState(1);
+
+  <ToastContainer />
 
   return (
     <div className="flex flex-row mt-4">

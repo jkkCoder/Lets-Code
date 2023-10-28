@@ -1,6 +1,6 @@
 import React,{useEffect, useState} from 'react'
 import Filter from './Filter'
-import { difficultyOptions, questionsPerPage, statusOptions } from '../../../utils/constants'
+import { deleteToastMessage, difficultyOptions, questionsPerPage, statusOptions } from '../../../utils/constants'
 import FilterTip from './FilterTip'
 import { API } from '../../../utils/API'
 import { useAppDispatch, useAppSelector } from '../../../redux/storeHook'
@@ -36,7 +36,7 @@ const FilterContainer = ({currentPage, setTotalQuestions, setCurrentPage}:Filter
         const response = await API.get('/category/allCategories')
         dispatch(addCategory(response?.data?.categories))
       }catch(err){
-        
+        deleteToastMessage(err?.response?.data?.message || 'SERVER ERROR')
       }finally{
         dispatch(setCategoryLoading(false))
       }
@@ -59,7 +59,7 @@ const FilterContainer = ({currentPage, setTotalQuestions, setCurrentPage}:Filter
         setTotalQuestions(response?.data?.totalQuestions);
         dispatch(addQuestions(response?.data?.questions))
       }catch(err){
-
+        deleteToastMessage(err?.response?.data?.message || 'SERVER ERROR')
       }finally{
         dispatch(setQuestionsLoading(false))
       }

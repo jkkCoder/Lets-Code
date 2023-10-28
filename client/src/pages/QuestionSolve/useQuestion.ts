@@ -3,6 +3,7 @@ import { useAppDispatch } from "../../redux/storeHook";
 import { useEffect } from "react";
 import { API } from "../../utils/API";
 import { addCurrentQuestion, removeCurrentQuestion, setCurrentQuestionLoading } from "../../redux/questionSlice";
+import { deleteToastMessage } from "../../utils/constants";
 
 export const useQuestion = () => {
   const params = useParams();
@@ -17,12 +18,11 @@ export const useQuestion = () => {
           Category: response?.data?.question?.Category?.name
         }))
       }catch(err){
-        
+        deleteToastMessage(err?.response?.data?.message || 'SERVER ERROR')
       }finally{
         dispatch(setCurrentQuestionLoading(false))
       }
     }
     fetchQuestsionData()
-
   },[params])
 }

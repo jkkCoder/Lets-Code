@@ -4,15 +4,19 @@ import { useAppSelector } from '../../redux/storeHook'
 import UserData from './components/UserData'
 import UserStatistics from './components/UserStatistics'
 import SolvedQuestions from './components/SolvedQuestions'
-import { capitalizeFirstLetter } from '../../utils/constants'
+import { capitalizeFirstLetter, deleteToastMessage } from '../../utils/constants'
 import ProfileSkeleton from './components/ProfileSkeleton'
 import { useParams } from 'react-router-dom'
 import BookMarks from './components/BookMark'
+import { ToastContainer } from 'react-toastify';
 
 const Profile = () => {
 
   const params = useParams();
   const user = useAppSelector(state=>state.user)
+
+  <ToastContainer />  
+
   const [userData, setUserData] = useState<ProfileDataInterface>(undefined);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -22,14 +26,19 @@ const Profile = () => {
     }
     const fetchProfile = async () => {
       setIsLoading(true);
-      const res = await API.get("/user/profile/"+params?.id)
-      setUserData(res?.data);
-      setIsLoading(false);
+      try{
+        const res = await API.get("/user/profile/"+params?.id)
+        setUserData(res?.data);
+      }catch(err){
+        deleteToastMessage(err?.response?.data?.message || 'SERVER ERROR')
+      }finally{
+        setIsLoading(false);
+      }
     }
     fetchProfile();
   },[params])
 
-  console.log('user data is',userData);
+  // console.log('user data is',userData);
 
   if(isLoading) return <ProfileSkeleton />
 
