@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { APIH, BookMarkDataInterface } from "../../../utils/API";
 import BookMarkSkeleton from "./BookMarkSkeleton";
+import { Link } from "react-router-dom";
 
 const BookMarks = () => {
 
@@ -26,12 +27,14 @@ const BookMarks = () => {
     <h1 className="text-xl font-semibold mb-2">Bookmarked Questions</h1>
     <div className="grid grid-cols-2 gap-0.5 overflow-y-scroll h-[90%]">
     {bookMarks?.bookmarks?.map((bookmark) => (
-      <div key={bookmark?._id} className="mb-4">
-        <h2 className="text-base font-semibold mb-2 cursor-pointer">
-          <span className="text-black-500 text-base pr-2">&#8226;</span>
-          <span className='hover:underline'>{bookmark?.title}</span>
-        </h2>
-      </div>
+      <Link key={bookmark?._id} to={'/solve/' + bookmark?._id}>
+        <div  className="mb-4">
+          <h2 className="text-base font-semibold mb-2 cursor-pointer">
+            <span className="text-black-500 text-base pr-2">&#8226;</span>
+            <span className='hover:underline'>{bookmark?.title}</span>
+          </h2>
+        </div>
+      </Link>
     ))}
   </div>
     </div>

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { QuestionSlice } from '../../../redux/questionSlice';
 import { capitalizeFirstLetter, difficultyOptions } from '../../../utils/constants';
 import SolvedQuestionsSkeleton from './SolvedQuestionSkeleton';
+import { Link } from 'react-router-dom';
 
 interface SolvedQuestionProps {
   solvedQuestions: {
@@ -55,12 +56,14 @@ const SolvedQuestions = ({isLoading, solvedQuestions }: SolvedQuestionProps) => 
 
       <div className="grid grid-cols-2 gap-0.5 overflow-y-scroll">
         {solvedQuestions?.[activeTab]?.map((solvedQuestion:{_id:string,question: QuestionSlice}) => (
-          <div key={solvedQuestion?._id} className="mb-4">
-            <h2 className="text-base font-semibold mb-2 cursor-pointer">
-              <span className="text-black-500 text-base pr-2">&#8226;</span>
-              <span className='hover:underline'>{solvedQuestion?.question?.title}</span>
-            </h2>
-          </div>
+          <Link key={solvedQuestion?._id} to={"/solve/" + solvedQuestion?.question?._id} >
+            <div key={solvedQuestion?._id} className="mb-4">
+              <h2 className="text-base font-semibold mb-2 cursor-pointer">
+                <span className="text-black-500 text-base pr-2">&#8226;</span>
+                <span className='hover:underline'>{solvedQuestion?.question?.title}</span>
+              </h2>
+            </div>
+          </Link>
         ))}
       </div>
     </div>
