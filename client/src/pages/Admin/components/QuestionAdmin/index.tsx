@@ -72,7 +72,6 @@ const QuestionAdmin = () => {
             secondaryCta={deleteModalClose}
 
         />
-        <ToastContainer />
         {
             editModal && (
                 <QuestionFormModal

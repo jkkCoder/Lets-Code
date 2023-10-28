@@ -25,7 +25,7 @@ const QuestionDescription = () => {
            const response = await APIH.get(`/question/${params.id}/bookmarkedByUser`)
            setIsBookmark(response?.data?.isBookmarked)
         }catch(err){
-
+          deleteToastMessage(err?.response?.data?.message || 'SERVER ERROR')
         }
      }
     }
@@ -43,7 +43,7 @@ const QuestionDescription = () => {
           type: isBookmark ? 'pull' : 'push'
         })
       }catch(err){
-
+        deleteToastMessage(err?.response?.data?.message || 'SERVER ERROR')
       }finally{
         setBookmarkLoading(false)
       }

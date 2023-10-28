@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../redux/storeHook";
 import { logout } from "../../redux/userSlice";
 import { API, searchSuggestionAPI } from "../../utils/API";
+import { deleteToastMessage } from "../../utils/constants";
 
 const useHeader = () => {
   const dispatch = useAppDispatch();
@@ -28,6 +29,7 @@ const useHeader = () => {
           setShowSuggestion(true)
           setSearchSuggestions(response?.data)
         }catch(err){
+          deleteToastMessage(err?.response?.data?.message || 'SERVER ERROR')
           setShowSuggestion(false)
         }
         

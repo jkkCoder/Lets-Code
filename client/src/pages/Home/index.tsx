@@ -22,7 +22,6 @@ const Home = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalQuestions, setTotalQuestions] = useState(1);
 
-  <ToastContainer />
 
   return (
     <div className="flex flex-row mt-4">

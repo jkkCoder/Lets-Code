@@ -43,7 +43,7 @@ const useQuestionAdmin = () => {
         const response = await API.get(`/question/filterQuestions?difficulty=${filterSelected?.difficultySelected.join(',')}&status=${filterSelected?.statusSelected}&userId=${user._id}`)
         dispatch(addQuestions(response?.data?.questions))
       }catch(err){
-
+        deleteToastMessage(err?.response?.data?.message || 'SERVER ERROR')
       }finally{
         dispatch(setQuestionsLoading(false))
       }

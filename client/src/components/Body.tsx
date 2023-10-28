@@ -4,6 +4,8 @@ import {Outlet, useNavigate} from "react-router-dom"
 import { useAppDispatch } from '../redux/storeHook'
 import { addUser } from '../redux/userSlice'
 import { API } from '../utils/API'
+import { ToastContainer } from 'react-toastify'
+import { deleteToastMessage } from '../utils/constants'
 
 const Body = () => {
   const dispatch = useAppDispatch()
@@ -21,6 +23,7 @@ const Body = () => {
           fullname: userPayload?.data?.userPayload?.fullName
       }))
       }catch(err){
+        deleteToastMessage(err?.response?.data?.message || 'SERVER ERROR')
         localStorage.setItem('token', '')
       }
     }
@@ -29,6 +32,7 @@ const Body = () => {
 
   return (
     <div>
+        <ToastContainer />
         <Header />
         <div className='px-3'>
           <Outlet />
