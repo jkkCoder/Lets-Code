@@ -71,7 +71,7 @@ const UserStatistics = ({isLoading, solvedStatistics}:UserStatisticsProps) => {
                 <p className='w-1/4 text-gray-500'>Hard</p>
                 <p className=''>{hardSolved}/{totalHard}</p>
               </div>
-              <Line percent={hardSolved/totalHard * 100} trailWidth={4} strokeWidth={4} strokeColor="#D3D3D3" trailColor='#FDE4E3'/>
+              <Line percent={hardSolved/totalHard * 100} trailWidth={4} strokeWidth={4} strokeColor="#FF2D55" trailColor='#FDE4E3'/>
             </div>
             
           </div>

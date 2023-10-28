@@ -24,7 +24,7 @@ const BookMarks = () => {
   return (
   <div className=' border border-gray-100 rounded-md shadow-lg h-[90%] px-4 py-2'>
     <h1 className="text-xl font-semibold mb-2">Bookmarked Questions</h1>
-    <div className="grid grid-cols-2 gap-0.5 overflow-y-scroll">
+    <div className="grid grid-cols-2 gap-0.5 overflow-y-scroll h-[90%]">
     {bookMarks?.bookmarks?.map((bookmark) => (
       <div key={bookmark?._id} className="mb-4">
         <h2 className="text-base font-semibold mb-2 cursor-pointer">
