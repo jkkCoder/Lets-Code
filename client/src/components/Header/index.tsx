@@ -81,7 +81,7 @@ const Header = () => {
         routeQuestion={routeQuestion}
       />
 
-      <div className="flex items-center">
+      <div>
         <Link to="/category" className="ml-4 text-white hover:text-blue-500 transition duration-300 ease-in-out">
           Category
         </Link>
@@ -93,12 +93,12 @@ const Header = () => {
         {!isLoggedIn ? (
           <>
             <Link to="/login" className="ml-4 text-white hover:text-blue-500 transition duration-300 ease-in-out">
-              <button className="bg-orange-500 hover-bg-orange-600 text-white py-2 px-4 rounded-md transition duration-300 ease-in-out">
+              <button className="bg-orange-500 hover-bg-orange-600 ml-4 text-white py-2 px-4 rounded-md transition duration-300 ease-in-out">
                 Login
               </button>
             </Link>
             <Link to="/login?type=SignUp" className="ml-4">
-              <button className="bg-orange-500 hover:bg-orange-600 text-white py-2 px-4 rounded-md transition duration-300 ease-in-out">
+              <button className="bg-orange-500 hover:bg-orange-600 ml-4 text-white py-2 px-4 rounded-md transition duration-300 ease-in-out">
                 Sign Up
               </button>
             </Link>
@@ -108,7 +108,7 @@ const Header = () => {
             <Link to={"/profile/" + user._id} className="ml-4 text-white hover:text-blue-500 transition duration-300 ease-in-out">
               Profile
             </Link>
-            <button onClick={() => setLogoutModal(true)} className="bg-orange-500 hover:bg-orange-600 text-white py-2 px-4 rounded-md transition duration-300 ease-in-out">
+            <button onClick={() => setLogoutModal(true)} className="bg-orange-500 hover:bg-orange-600 ml-4 text-white py-2 px-4 rounded-md transition duration-300 ease-in-out">
               Logout
             </button>
 
