@@ -1,13 +1,18 @@
 import React, { useState } from 'react';
 import { FaEdit, FaUserCircle } from 'react-icons/fa';
+import UserDataSkeleton from './UserDataSkeleton';
 
 interface UserDataProps {
   userName: string;
   fullName: string;
   emailId: string;
+  isLoading: boolean;
 }
 
-const UserData = ({ userName, fullName, emailId }: UserDataProps) => {
+const UserData = ({isLoading, userName, fullName, emailId }: UserDataProps) => {
+
+  if(isLoading) return <UserDataSkeleton />
+
   return (
     <div className="bg-gray-50 border-solid border-gray-300 p-4 rounded-lg shadow-lg">
       <div className="grid grid-cols-2 gap-4">

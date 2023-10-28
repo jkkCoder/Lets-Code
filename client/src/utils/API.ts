@@ -57,3 +57,14 @@ export interface ProfileDataInterface {
        }[];
     }
   }
+
+export interface BookMarkDataInterface {
+    success: boolean;
+    bookmarks: {
+        _id: string;
+        title: string;
+        description: string;
+        difficulty: string
+    }[];
+}
+

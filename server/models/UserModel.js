@@ -23,7 +23,13 @@ const UserSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true,
-    }
+    },
+    bookmarks: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Question'
+        }
+    ]
 })
 
 const User = mongoose.model('User', UserSchema )

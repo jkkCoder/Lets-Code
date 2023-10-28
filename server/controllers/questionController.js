@@ -2,6 +2,7 @@ import Category from '../models/CategoryModel.js'
 import Question from '../models/QuestionModel.js'
 import Solution from '../models/SolutionModel.js'
 import User from '../models/UserModel.js'
+import jwt from "jsonwebtoken"
 
 // GET      /question/getQuestions      PUBLIC
 export const fetchQuestions = async (req,res) => {
@@ -23,6 +24,22 @@ export const fetchQuestionData = async (req,res) => {
         }
 
         return res.status(200).json({ success: true, question })
+    }catch(err){
+        return res.status(500).json({success: false, message: 'Internal Server Error'})
+    }
+}
+
+// POST /:questionId/bookmarkedByUser       PROTECTED
+export const isBookmarkedByUser = async (req,res) => {
+    const {questionId} = req.params
+    try{
+        const user = await User.findById(req.user._id)
+        if(!user){
+            return res.status(400).json({success: false, message: "User not found"})
+        }
+
+        const isBookmarked = user.bookmarks.includes(questionId)
+        return res.status(200).json({ success: true, isBookmarked, questionId });
     }catch(err){
         return res.status(500).json({success: false, message: 'Internal Server Error'})
     }
@@ -166,6 +183,52 @@ export const searchProfile = async (req,res) => {
 
         res.json({ questions, profile });
     }catch(err){
+        console.log("error is ",err)
+        return res.status(500).json({success: false, message: 'Internal Server Error'})
+    }
+}
+
+// POST      /question/bookmarkQuestion     PROTECTED
+export const bookmarkQuestion = async ( req, res ) => {
+    const {questionId, type} = req.body
+    try{
+        const user = await User.findById(req.user._id)
+        const question = await Question.findById(questionId)
+
+        if(!user){
+            return res.status(400).json({success: false, message: 'User not found'})
+        }
+
+
+        if(!question){
+            return res.status(400).json({success: false, message: 'Question not found'})
+        }
+
+        if(type === "push"){
+            if(!user.bookmarks.includes(questionId)){
+                user.bookmarks.push(questionId)
+            }
+
+            if(!question.bookmarkedBy.includes(user._id)){
+                question.bookmarkedBy.push(user._id)
+            }
+        }
+
+        if(type === "pull"){
+            if(user.bookmarks.includes(questionId)){
+                user.bookmarks.pull(questionId)
+            }
+
+            if(question.bookmarkedBy.includes(user._id)){
+                question.bookmarkedBy.pull(user._id)
+            }
+        }
+
+        await user.save()
+        await question.save()
+
+        return res.status(200).json({success: true, message: type==='push' ? 'Question Bookmarked' : 'Question removed from Bookmarks', })
+    }catch(err) {
         console.log("error is ",err)
         return res.status(500).json({success: false, message: 'Internal Server Error'})
     }
