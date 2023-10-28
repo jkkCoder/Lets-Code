@@ -23,7 +23,6 @@ const Body = () => {
           fullname: userPayload?.data?.userPayload?.fullName
       }))
       }catch(err){
-        deleteToastMessage(err?.response?.data?.message || 'SERVER ERROR')
         localStorage.setItem('token', '')
       }
     }

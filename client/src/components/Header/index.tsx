@@ -16,7 +16,7 @@ const Header = () => {
   return (
     <nav className="flex items-center justify-between h-16 bg-orange-500 shadow-md px-4 sm:px-6 lg:px-8">
       <Link to="/" className="flex items-center">
-        <div className="h-10 w-auto flex items-center justify-center rounded-lg bg-white">
+        <div className="h-10 w-[105px] bg-white flex items-center justify-center rounded-lg ">
           <img src="/LetsCodeLogo.png" alt="letcode logo" className="h-8 w-auto" />
         </div>
       </Link>
