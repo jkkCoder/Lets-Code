@@ -103,7 +103,7 @@ const SearchModal = ({ selectedCategory, onClose, onSubmit }: SearchModalProps) 
         <div className="overflow-y-auto max-h-[58%]"> {/* Scrollable container */}
           <ul>
             {questionLoading && <div>Loading...</div>}
-            {!questionLoading && questions.map((question, index) => (
+            {!questionLoading && questions?.map((question, index) => (
               <li
                 key={question._id}
                 onClick={() => toggleQuestionSelection(question._id)}

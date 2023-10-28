@@ -120,7 +120,7 @@ const FilterContainer = ({currentPage, setTotalQuestions, setCurrentPage}:Filter
         </div>
         <div className='my-2'>
             {
-                [...difficultySelected, ...statusSelected].map(filters => <FilterTip key={filters} name={filters} removeFilter={removeFilter}/>)
+                [...difficultySelected, ...statusSelected]?.map(filters => <FilterTip key={filters} name={filters} removeFilter={removeFilter}/>)
             }
         </div>
             

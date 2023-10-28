@@ -33,7 +33,7 @@ const Home = () => {
         >
           {questionsLoading && <QuestionContainerSkeleton />}
           {!questionsLoading &&
-            questions.map((question, index) => (
+            questions?.map((question, index) => (
               <Link key={question?._id} to={`/solve/${question?._id}`}>
                 <QuestionContainer number={index + 1} question={question} />
               </Link>
@@ -51,7 +51,7 @@ const Home = () => {
         <p className="font-bold text-3xl mb-5">Categories</p>
         <div className="flex my-2 flex-wrap">
           {categoryLoading && <CategorySkeleton />}
-          {!categoryLoading && categories.map(category => (
+          {!categoryLoading && categories?.map(category => (
             <Link key={category?._id} to={`/category?name=${category?.name}`}>
                 <CategoryName name={category?.name}/>
             </Link>

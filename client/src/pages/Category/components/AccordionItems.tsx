@@ -31,7 +31,7 @@ const AccordionItems = ({ name, questions, id, showEdit, editCta,index }: Accord
                 </div>
                 {isOpen && (
                 <div className="mt-4">
-                    {questions.map((question, index: number) => (
+                    {questions?.map((question, index: number) => (
                         <Link key={question?._id} to={`/solve/${question?._id}`}>
                             <QuestionContainer number={index + 1} question={question} />
                         </Link>

@@ -29,7 +29,7 @@ const SearchResultsModal = ({ isOpen, onRequestClose, searchInput, searchResults
           </div>
           <div className="modal-body p-5 h-80vh">
             <ul>
-              {searchResults.profile.map((profile) => (
+              {searchResults?.profile?.map((profile) => (
                 <li
                   key={profile._id}
                   onClick={() => routeProfile(profile._id)}
@@ -41,7 +41,7 @@ const SearchResultsModal = ({ isOpen, onRequestClose, searchInput, searchResults
                   </div>
                 </li>
               ))}
-              {searchResults.questions.map((question) => (
+              {searchResults?.questions?.map((question) => (
                 <li
                   key={question._id}
                   onClick={() => routeQuestion(question._id)}

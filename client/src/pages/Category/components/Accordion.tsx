@@ -34,7 +34,7 @@ const  Accordion = ({ categories, showEdit, editCta }: AccordionInterface) => {
 
     return (
       <div className=" w-[80%] mx-auto">
-        {categories.map((category,index:number) => (
+        {categories?.map((category,index:number) => (
           <AccordionItems 
             index={index}
             key={category?._id} 

@@ -123,7 +123,7 @@ export const filterQuestions = async(req,res) => {
             const solutions = await Solution.find({
                 user: userId
             })
-            const questionIds = solutions.map(solution => solution.question)
+            const questionIds = solutions?.map(solution => solution.question)
 
             query._id = status === 'solved' ?  { $in: questionIds } : {$nin: questionIds };
         }

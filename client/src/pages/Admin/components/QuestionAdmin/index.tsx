@@ -42,7 +42,7 @@ const QuestionAdmin = () => {
             <div style={{ maxHeight: 'calc(100vh - 9rem)' }} className='min-h-[12rem]'>
             { questionsLoading && <QuestionContainerSkeleton /> }
             {
-                !questionsLoading && questions.map((question,index) => <QuestionContainer
+                !questionsLoading && questions?.map((question,index) => <QuestionContainer
                     key={question?._id}
                     number={index+1} 
                     question={question} 

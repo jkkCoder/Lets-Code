@@ -104,7 +104,7 @@ const QuestionFormModal = ({ onClose, onSubmit, selectedQuestion }:QuestionFormM
           </div>
           <div className="mb-4">
             <label className="block text-gray-600">Test Cases:</label>
-            {formData.testCases.map((testCase, index) => (
+            {formData?.testCases?.map((testCase, index) => (
               <div key={index} className="flex flex-col mb-4">
                 <div className="flex items-center mb-2">
                   <input
