@@ -22,6 +22,10 @@ export const APIH = axios.create({
 
 })
 
+export const setAPIHAuthorization = (token: string) => {
+    APIH.defaults.headers['Authorization'] = `Bearer ${token}`;
+};
+
 export interface searchSuggestionAPI{
     profile: UserSlice[],
     questions: QuestionSlice[]

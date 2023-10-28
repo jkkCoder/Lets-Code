@@ -3,7 +3,7 @@ import {isValidEmail, isValidPassword} from "../../utils/constants"
 import {useNavigate, useLocation} from "react-router-dom"
 import { addUser } from "../../redux/userSlice";
 import { useAppDispatch, useAppSelector } from "../../redux/storeHook";
-import { API } from "../../utils/API";
+import { API, setAPIHAuthorization } from "../../utils/API";
 
 
 
@@ -57,6 +57,7 @@ const useLogin = () => {
                     password: formData.passWord,        
                 })
                 response?.data?.success && localStorage.setItem('token',response?.data?.payload?.jwtToken)  
+                response?.data?.success && setAPIHAuthorization(response?.data?.payload?.jwtToken)
                 dispatch(addUser({
                     _id: response?.data?.payload?._id,
                     userName: response?.data?.payload?.userName,
@@ -95,6 +96,7 @@ const useLogin = () => {
                     fullName: formData.fullName,
                 })
                 response?.data?.success && localStorage.setItem('token',response?.data?.payload?.jwtToken)
+                response?.data?.success && setAPIHAuthorization(response?.data?.payload?.jwtToken)
                 dispatch(addUser({
                     _id: response?.data?.payload?._id,
                     userName: response?.data?.payload?.userName,

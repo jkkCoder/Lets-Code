@@ -1,8 +1,8 @@
 import  { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "../../redux/storeHook";
+import { useAppDispatch } from "../../redux/storeHook";
 import { logout } from "../../redux/userSlice";
-import { API, searchSuggestionAPI } from "../../utils/API";
+import { API, searchSuggestionAPI, setAPIHAuthorization } from "../../utils/API";
 import { deleteToastMessage } from "../../utils/constants";
 
 const useHeader = () => {
@@ -54,6 +54,7 @@ const useHeader = () => {
     localStorage.removeItem('token');
     dispatch(logout());
     setLogoutModal(false);
+    setAPIHAuthorization('')
   };
 
   const routeProfile = (id:string) => {
