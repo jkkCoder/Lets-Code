@@ -40,7 +40,10 @@ const useEditor = () => {
       }
       const {userName} = user
 
-      socketRef.current = io(ENDPOINT);
+      socketRef.current = io(ENDPOINT, {
+        withCredentials: true, 
+        transports: ['websocket'],
+      });
 
       socketRef.current.on('connect_error', (err:string) => deleteToastMessage(err))
       socketRef.current.on('connect_failed', (err:string) => deleteToastMessage(err))

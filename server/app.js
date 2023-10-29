@@ -44,7 +44,15 @@ app.use('/solution', solutionRouter)
 
 
 const server = createServer(app)
-const io = new Server(server);
+// const io = new Server(server);
+const io = new Server(server, {
+  cors: {
+    origin: "https://letscode-1.netlify.app", // Replace with your frontend's origin
+    methods: ["GET", "POST"],
+    allowedHeaders: ["my-custom-header"],
+    credentials: true,
+  },
+});
 
 io.on("connection", (socket) => {
   socket.on("join", ({userName, session}, errorCallback, successCallBack) => {
