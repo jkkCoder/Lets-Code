@@ -5,7 +5,8 @@ export interface UserSlice {
     userName: string
     email: string
     isAdmin: boolean | null
-    fullName: string
+    fullName: string,
+    profileUrl: string | undefined
 }
 
 const initialState : UserSlice = {
@@ -13,7 +14,8 @@ const initialState : UserSlice = {
     userName : '',
     email: '',
     isAdmin: null,
-    fullName: ''
+    fullName: '',
+    profileUrl: undefined,
 }
 
 const userSlice = createSlice({
@@ -23,11 +25,17 @@ const userSlice = createSlice({
         addUser: (_, action) => {
             return action.payload
         },
+        updateProfile: (state,action) => {
+            return {
+                ...state,
+                profileUrl: action.payload.url
+            }
+        },
         logout: () => {
             return initialState
         }
     }
 })
 
-export const {addUser, logout} = userSlice.actions
+export const {addUser, logout,updateProfile} = userSlice.actions
 export default userSlice.reducer
