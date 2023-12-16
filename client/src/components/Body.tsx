@@ -20,7 +20,8 @@ const Body = () => {
           userName: userPayload?.data?.userPayload?.userName,
           email: userPayload?.data?.userPayload?.email,
           isAdmin: userPayload?.data?.userPayload?.isAdmin,
-          fullname: userPayload?.data?.userPayload?.fullName
+          fullname: userPayload?.data?.userPayload?.fullName,
+          profileUrl: userPayload?.data?.userPayload?.profilePic,
       }))
       }catch(err){
         localStorage.setItem('token', '')

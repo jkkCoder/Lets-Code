@@ -63,7 +63,8 @@ const useLogin = () => {
                     userName: response?.data?.payload?.userName,
                     email: response?.data?.payload?.email,
                     isAdmin: response?.data?.payload?.isAdmin,
-                    fullname: response?.data?.payload?.fullname
+                    fullname: response?.data?.payload?.fullname,
+                    profileUrl: response?.data?.userPayload?.profileUrl,
                 }))
                 if(prevScreen?.length > 0){
                     navigate(prevScreen)
@@ -102,7 +103,8 @@ const useLogin = () => {
                     userName: response?.data?.payload?.userName,
                     email: response?.data?.payload?.email,
                     isAdmin: response?.data?.payload?.isAdmin,
-                    fullname: response?.data?.payload?.fullname
+                    fullname: response?.data?.payload?.fullname,
+                    profileUrl: response?.data?.userPayload?.profileUrl
                 }))
                 if(prevScreen?.length > 0){
                     navigate(prevScreen)

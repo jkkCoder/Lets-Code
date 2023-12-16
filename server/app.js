@@ -1,4 +1,6 @@
 import express from 'express'
+import path, {dirname} from "path"
+import { fileURLToPath } from 'url';
 import 'dotenv/config'
 import mongoose from 'mongoose'
 import authRouter from "./routes/userRoute.js"
@@ -13,8 +15,12 @@ const app = express()
 
 const PORT = 5000
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
 app.use(express.json())
 app.use(cors())
+app.use('/images', express.static(path.join(__dirname, 'images')));
 
 const dbURL = `mongodb+srv://jayeshk118:${process.env.MONGO_ATLAS_PASSWORD}@cluster0.qgq3dkm.mongodb.net/?retryWrites=true&w=majority`
 

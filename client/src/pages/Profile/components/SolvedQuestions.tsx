@@ -40,6 +40,7 @@ const SolvedQuestions = ({isLoading, solvedQuestions }: SolvedQuestionProps) => 
           {
             difficultyOptions?.map(tab => (
               <button
+                key={tab}
                 onClick={() => handleTabClick(tab)}
                 className={`${
                   activeTab === tab

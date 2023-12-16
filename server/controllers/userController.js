@@ -4,7 +4,44 @@ import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
 import { isValidEmail, isValidPassword } from "../utils/constants.js"
 import Question from "../models/QuestionModel.js"
+import path, {dirname} from "path"
+import { fileURLToPath } from 'url';
+import fs from "fs"
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename)
+
+const deleteImageByUrl = (imageUrl) => {
+    const imagesDirectory = path.join(__dirname, '../images');
+    const imagePath = path.join(imagesDirectory, imageUrl);
+    try {
+        fs.unlinkSync(imagePath);
+    } catch (error) {
+        console.error('Error deleting image:', error);
+    }
+};
+
+// POST     /user/updateProfile     PRIVATE API     
+export const updateProfile = async (req,res) => {
+    try{
+        if(req.uploadError){
+            return res.status(400).json({success: false, message: req.uploadErrorMsg})
+        }
+        const filename = req.file.filename;
+        const fileUrl = `${req.protocol}://${req.get('host')}/images/${filename}`;
+        const user = await User.findById(req.user._id)
+
+        //delete already existing pic from image directory
+        deleteImageByUrl(user.profilePic.split('/images/')[1])
+
+        user.profilePic = fileUrl
+        await user.save()
+        res.status(200).json({url: fileUrl, success:true})
+    }catch(err){
+        console.log("err is ", err)
+        return res.status(500).json({success: false, message: "Internal server error", errorMessage: err})
+    }
+}
 
 // POST     /user/login     PUBLIC API      
 export const loginUser = async(req,res) => {
@@ -33,6 +70,7 @@ export const loginUser = async(req,res) => {
                 email: existingUser?.email,
                 isAdmin: existingUser?.isAdmin,
                 fullName: existingUser?.fullName,
+                profileUrl: existingUser?.profilePic,
                 _id: existingUser?._id
             }})
         }
@@ -84,6 +122,7 @@ export const registerUser = async (req,res) => {
             email: user?.email,
             isAdmin: user?.isAdmin,
             fullName: user?.fullName,
+            profileUrl: existingUser?.profilePic,
             _id: user?._id
         }})
 
