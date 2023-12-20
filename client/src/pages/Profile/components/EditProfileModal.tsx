@@ -7,14 +7,19 @@ import {
   successToastMessage,
 } from "../../../utils/constants";
 
-const EditProfileModal = ({ setShowProfileModal, setIsLoading }) => {
+interface EditProfileModalProps {
+  setShowProfileModal:  React.Dispatch<React.SetStateAction<boolean>> ;
+}
+
+
+const EditProfileModal = ({ setShowProfileModal } : EditProfileModalProps) => {
   const userData = useAppSelector((state) => state.user);
   const [mailID, setMailID] = useState(userData.email);
   const [userName, setUserName] = useState(userData.userName);
   const [fullName, setFullName] = useState(userData.fullName);
   const [disabled, setDisabled] = useState(false);
 
-  const CloseModal = () => {
+  const closeModal = () => {
     setShowProfileModal(false);
   };
 
@@ -34,20 +39,19 @@ const EditProfileModal = ({ setShowProfileModal, setIsLoading }) => {
     } catch (err) {
       deleteToastMessage(err?.response?.data?.message || "SERVER ERROR");
     } finally {
-      CloseModal();
+      closeModal();
     }
   };
 
   console.log("user data is : ", userData);
 
   return (
-    <>
       <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
         <div className="bg-white border-2 border-orange-500 rounded w-96 p-6">
           <div className="flex justify-between mb-4">
             <h2 className="text-black text-lg font-bold">Edit Profile</h2>
             <button
-              onClick={CloseModal}
+              onClick={closeModal}
               className="text-black hover:text-orange-500"
             >
               <svg
@@ -106,9 +110,9 @@ const EditProfileModal = ({ setShowProfileModal, setIsLoading }) => {
             </button>
           </div>
         </div>
-      </div>
-      <ToastContainer />
-    </>
+        <ToastContainer />
+      </div>  
+    
   );
 };
 

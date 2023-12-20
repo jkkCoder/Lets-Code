@@ -40,8 +40,6 @@ const Profile = () => {
     fetchProfile();
   }, [params]);
 
-  // console.log('user data is',userData);
-
   return (
     <div
       style={{ height: "calc(100vh - 7rem)" }}
@@ -89,12 +87,9 @@ const Profile = () => {
         )}
       </div>
       {showProfileModal && (
-        <>
-          <EditProfileModal
-            setShowProfileModal={setShowProfileModal}
-            setIsLoading={setIsLoading}
-          />
-        </>
+        <EditProfileModal
+          setShowProfileModal={setShowProfileModal}
+        />
       )}
     </div>
   );
