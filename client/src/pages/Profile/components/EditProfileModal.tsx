@@ -1,16 +1,17 @@
-import React, { useEffect, useState } from "react";
-import { useAppSelector } from "../../../redux/storeHook";
+import React, {  useRef, useState } from "react";
+import { useAppDispatch, useAppSelector } from "../../../redux/storeHook";
 import { APIH } from "../../../utils/API";
 import { ToastContainer } from "react-toastify";
 import {
   deleteToastMessage,
   successToastMessage,
 } from "../../../utils/constants";
+import { FaUpload, FaUserCircle } from "react-icons/fa";
+import { updateProfile } from "../../../redux/userSlice";
 
 interface EditProfileModalProps {
   setShowProfileModal:  React.Dispatch<React.SetStateAction<boolean>> ;
 }
-
 
 const EditProfileModal = ({ setShowProfileModal } : EditProfileModalProps) => {
   const userData = useAppSelector((state) => state.user);
@@ -18,6 +19,34 @@ const EditProfileModal = ({ setShowProfileModal } : EditProfileModalProps) => {
   const [userName, setUserName] = useState(userData.userName);
   const [fullName, setFullName] = useState(userData.fullName);
   const [disabled, setDisabled] = useState(false);
+
+
+  const fileInputRef = useRef(null);
+  const dispatch = useAppDispatch()
+  const profileUrl = useAppSelector(state => state.user.profileUrl)
+  const handleFileInputClick = () => {
+    // Trigger click on the hidden file input
+    fileInputRef.current.value = null
+    fileInputRef.current.click();
+  };
+
+  const handleFileChange = async (event) => {
+    const file = event.target.files[0];
+
+    const formData = new FormData();
+    formData.append('profile', file);
+    try{
+      const response = await APIH.post('/user/updateProfile', formData,  {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+      }})
+      if(response?.data?.success){
+        dispatch(updateProfile({url: response?.data?.url}))
+      }
+    }catch(err){
+      deleteToastMessage(err?.response?.data?.message || 'Image not uploaded')
+    }
+  };
 
   const closeModal = () => {
     setShowProfileModal(false);
@@ -43,7 +72,6 @@ const EditProfileModal = ({ setShowProfileModal } : EditProfileModalProps) => {
     }
   };
 
-  console.log("user data is : ", userData);
 
   return (
       <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
@@ -69,6 +97,19 @@ const EditProfileModal = ({ setShowProfileModal } : EditProfileModalProps) => {
                 />
               </svg>
             </button>
+          </div>
+          <div  className="mb-4 flex justify-center items-center">
+            <div onMouseDown={handleFileInputClick} className="rounded-[50%] w-20 h-20  flex items-center justify-center cursor-pointer">
+            {profileUrl ? 
+            <img className='rounded-[50%] w-20 h-20' src={profileUrl} alt="pro pic" />
+            : <FaUserCircle size={100} className="text-5xl text-gray-600" />}
+              <FaUpload  className="absolute z-10"/>
+              <input
+                type="file"
+                ref={fileInputRef}
+                style={{ display: 'none' }}
+                onChange={handleFileChange}/>
+            </div>
           </div>
           <div className="mb-4">
             <p className="text-black">Full Name</p>
