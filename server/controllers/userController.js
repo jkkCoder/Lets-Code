@@ -12,6 +12,8 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename)
 
 const deleteImageByUrl = (imageUrl) => {
+    if(!imageUrl)
+        return;
     const imagesDirectory = path.join(__dirname, '../images');
     const imagePath = path.join(imagesDirectory, imageUrl);
     try {
@@ -32,7 +34,7 @@ export const updateProfile = async (req,res) => {
         const user = await User.findById(req.user._id)
 
         //delete already existing pic from image directory
-        deleteImageByUrl(user.profilePic.split('/images/')[1])
+        deleteImageByUrl(user?.profilePic?.split('/images/')[1])
 
         user.profilePic = fileUrl
         await user.save()
