@@ -70,7 +70,7 @@ export const loginUser = async(req,res) => {
                 email: existingUser?.email,
                 isAdmin: existingUser?.isAdmin,
                 fullName: existingUser?.fullName,
-                profileUrl: existingUser?.profilePic,
+                profilePic: existingUser?.profilePic,
                 _id: existingUser?._id
             }})
         }
@@ -122,7 +122,7 @@ export const registerUser = async (req,res) => {
             email: user?.email,
             isAdmin: user?.isAdmin,
             fullName: user?.fullName,
-            profileUrl: existingUser?.profilePic,
+            profilePic: existingUser?.profilePic,
             _id: user?._id
         }})
 

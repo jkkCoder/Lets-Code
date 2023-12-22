@@ -22,6 +22,7 @@ const Body = () => {
             email: userPayload?.data?.userPayload?.email,
             isAdmin: userPayload?.data?.userPayload?.isAdmin,
             fullName: userPayload?.data?.userPayload?.fullName,
+            profileUrl: userPayload?.data?.userPayload?.profilePic
           })
         );
       } catch (err) {

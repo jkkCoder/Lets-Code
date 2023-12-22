@@ -64,7 +64,8 @@ const useLogin = () => {
             userName: response?.data?.payload?.userName,
             email: response?.data?.payload?.email,
             isAdmin: response?.data?.payload?.isAdmin,
-            fullName: response?.data?.payload?.fullname,
+            fullName: response?.data?.payload?.fullName,
+            profileUrl: response?.data?.payload?.profilePic
           })
         );
         if (prevScreen?.length > 0) {
@@ -114,7 +115,8 @@ const useLogin = () => {
             userName: response?.data?.payload?.userName,
             email: response?.data?.payload?.email,
             isAdmin: response?.data?.payload?.isAdmin,
-            fullName: response?.data?.payload?.fullname,
+            fullName: response?.data?.payload?.fullName,
+            profileUrl: response?.data?.payload?.profilePic
           })
         );
         if (prevScreen?.length > 0) {
