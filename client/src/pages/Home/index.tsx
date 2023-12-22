@@ -31,6 +31,7 @@ const Home = () => {
         <div
           style={{ height: "calc(100vh - 15rem)" }}
         >
+          <p className="text-xl font-bold mb-2">Coding Challenges</p>
           {questionsLoading && <QuestionContainerSkeleton />}
           {!questionsLoading &&
             questions?.map((question, index) => (

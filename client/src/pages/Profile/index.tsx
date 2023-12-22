@@ -53,7 +53,7 @@ const Profile = () => {
               Details
             </p>
             <div
-              className="flex ml-2 items-center"
+              className="flex ml-2 items-center cursor-pointer"
               onClick={() => setShowProfileModal(true)}
             >
               <MdEdit />
