@@ -13,7 +13,7 @@ import  {Server} from "socket.io"
 import { addUser, checkUsernameAlreadyInRoom, getUser, getUsersInRoom, removeUser } from './utils/userSocket.js'
 const app = express()
 
-const PORT = 5000
+const PORT = process.env.PORT || 5000
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
