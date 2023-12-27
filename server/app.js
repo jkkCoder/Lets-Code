@@ -43,6 +43,10 @@ db.once('open', () => {
     console.log('Connected to MongoDB');    
 });
 
+app.get('/dummy', (req,res) => {
+  res.json({connected: true})
+})
+
 app.use('/user',authRouter)
 app.use('/question', questionRouter)
 app.use('/category', categoryRouter)
