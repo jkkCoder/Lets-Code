@@ -1,9 +1,10 @@
 import { useEffect, useRef, useState } from "react"
 import { defaultLanguageCode, deleteToastMessage, successToastMessage } from "../../../../utils/constants"
-import { APIH, ENDPOINT } from "../../../../utils/API"
+import { API, APIH, SOCKET_ENDPOINT } from "../../../../utils/API"
 import { useAppSelector } from "../../../../redux/storeHook"
 import io from 'socket.io-client';
 import { useLocation, useNavigate, useParams } from "react-router-dom";
+import axios from "axios";
 
 export interface codeOutputProps {
     success: boolean,
@@ -24,6 +25,7 @@ const useEditor = () => {
     const [roomMembers, setRoomMembers] = useState([])
     const [shouldSync, setShouldSync] = useState(true)
     const [socketConnected, setSocketConnected] = useState(false)
+    const [socketServerAwake, setSocketServerAwake] = useState(false)
 
 
     const [languageSelected, setLanguageSelected] = useState('c')
@@ -34,13 +36,44 @@ const useEditor = () => {
     const questionId = useAppSelector(state => state.questions.currentQuestion._id)
     const isLoggedin = user?._id?.length > 0
 
+    {/*  
+        the below useEffect is only for waking onRenderer server, because it sleeps after 15 minutes
+        of inactivity, and adaptable's server is not reliable for socket connections, so we are using 
+        onRenderer server for socket connection.
+    */}
+    useEffect(() => {   //wake up webSocket server (onRenderer)
+      const timer = setInterval(async() => {
+        await wakeUpServer()
+      },2000)
+
+      //stop connection attemp after 2 minutes
+      const stopWakeUpTimer = setTimeout(() => {
+        clearInterval(timer)
+      },120000) //2 minutes
+
+      const wakeUpServer = async() => {
+        try{
+          const res = await axios.get(`${SOCKET_ENDPOINT}/dummy`)
+          if(res?.data?.connected){
+            setSocketServerAwake(true)
+            clearInterval(timer)
+          }
+        }catch(err){ }
+      }
+
+      return () => {
+        clearInterval(timer)
+        clearTimeout(stopWakeUpTimer)
+      }
+    },[])
+
     useEffect(() => {
       if(!session){
         return;
       }
       const {userName} = user
 
-      socketRef.current = io(ENDPOINT, {
+      socketRef.current = io(SOCKET_ENDPOINT, {
         withCredentials: true, 
         transports: ['websocket'],
       });
@@ -168,7 +201,7 @@ const useEditor = () => {
         navigator.clipboard.writeText(window.location.href);
         successToastMessage("Room's Link Copied")
       }else{
-        navigate(`${location.pathname}?session=${user?._id}`)
+        socketServerAwake && navigate(`${location.pathname}?session=${user?._id}`)
       }
     }
 
@@ -182,7 +215,7 @@ const useEditor = () => {
 
     return {
         handleLanguage, getLanguage, code, setCode, handleCodeSubmit, submitLoading, isLoggedin, goBackCta,
-        codeOutput, languageSelected,socketConnected, handleRoomCta, roomMembers, session, navigateToLogin
+        codeOutput, languageSelected,socketConnected, handleRoomCta, roomMembers, session, navigateToLogin, socketServerAwake
     }
   
 }

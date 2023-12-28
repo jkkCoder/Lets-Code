@@ -26,7 +26,8 @@ const Editor = () => {
     session,
     isLoggedin,
     navigateToLogin,
-    goBackCta
+    goBackCta,
+    socketServerAwake
   } = useEditor()
   return (
     <>
@@ -43,7 +44,7 @@ const Editor = () => {
                 <button 
                   className='p-1 bg-orange-400 rounded-sm ml-5 text-white'
                   onClick={handleRoomCta}
-                >{socketConnected ? "Copy Room's Link" : "Invite Friends"}</button>
+                >{socketConnected ? "Copy Room's Link" : socketServerAwake ? "Invite Friends" : "Invite Friends Loading..."}</button>
                 <div className='ml-5'>
                   {roomMembers?.map(member => <Avatar key={member?.username} className='mr-2' name={member?.username} size='30' round />)}
                 </div>

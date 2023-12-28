@@ -3,10 +3,14 @@ import { UserSlice } from "../redux/userSlice";
 import { QuestionSlice } from "../redux/questionSlice";
 
 const API_DEV_ENDPOINT = "http://127.0.0.1:5000";
-const API_PROD_ENDPOINT = "https://letscode.adaptable.app";
+const API_SOCKET_PROD_ENPOINT = 'https://letscode-4kez.onrender.com'
+const API_PROD_ENDPOINT = 'https://letscode.adaptable.app';
 
 export const ENDPOINT =
   process.env.NODE_ENV === "development" ? API_DEV_ENDPOINT : API_PROD_ENDPOINT;
+
+export const SOCKET_ENDPOINT =
+  process.env.NODE_ENV === "development" ? API_DEV_ENDPOINT : API_SOCKET_PROD_ENPOINT;
 
 export const API = axios.create({
   baseURL: ENDPOINT,
