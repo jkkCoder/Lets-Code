@@ -29,7 +29,7 @@ const Category = () => {
 
 
   return (
-    <div style={{ height: 'calc(100vh - 6rem)'}} className="mt-5 overflow-y-scroll">
+    <div style={{ height: 'calc(100vh - 6rem)'}} className="mt-5">
       <Accordion categories={categories} />
     </div>
   );

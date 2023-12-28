@@ -42,6 +42,9 @@ const useEditor = () => {
         onRenderer server for socket connection.
     */}
     useEffect(() => {   //wake up webSocket server (onRenderer)
+      if(!isLoggedin)
+        return;
+      
       const timer = setInterval(async() => {
         await wakeUpServer()
       },2000)

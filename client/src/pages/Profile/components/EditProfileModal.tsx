@@ -123,6 +123,7 @@ const EditProfileModal = ({ setShowProfileModal } : EditProfileModalProps) => {
               <input
                 type="file"
                 ref={fileInputRef}
+                accept="image/png, image/gif, image/jpeg"
                 style={{ display: 'none' }}
                 onChange={handleFileChange}
                 />

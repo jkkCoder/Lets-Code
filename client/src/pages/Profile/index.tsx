@@ -43,10 +43,10 @@ const Profile = () => {
   return (
     <div
       style={{ height: "calc(100vh - 7rem)" }}
-      className=" mt-10 flex h-screen"
+      className=" mt-10 flex-row md:flex h-screen"
     >
-      <div className="w-1/2">
-        <div className=" mx-20 h-1/2">
+      <div className="w-[100%] md:w-1/2">
+        <div className="mx-0 md:mx-5 lg:mx-20 h-1/2">
           <div className="flex flex-row">
             <p className="font-bold text-lg">
               {capitalizeFirstLetter(userData?.userData?.fullName || "")}{" "}
@@ -66,14 +66,14 @@ const Profile = () => {
             emailId={userData?.userData?.email}
           />
         </div>
-        <div>
+        <div className="mx-0 md:mx-5 lg:mx-20 ">
           <UserStatistics
             isLoading={isLoading}
             solvedStatistics={userData?.solvedStatistics}
           />
         </div>
       </div>
-      <div className="w-1/2">
+      <div className="w-[100%] md:w-1/2">
         <div className="h-1/2">
           <SolvedQuestions
             isLoading={isLoading}
@@ -81,7 +81,7 @@ const Profile = () => {
           />
         </div>
         {params.id === user._id && (
-          <div className="h-1/2">
+          <div className="h-1/2  mb-5 md:mb-0">
             <BookMarks />
           </div>
         )}

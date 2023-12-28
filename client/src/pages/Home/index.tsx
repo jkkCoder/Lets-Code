@@ -25,7 +25,7 @@ const Home = () => {
 
   return (
     <div className="flex flex-row mt-4">
-      <div style={{ height: "calc(100vh - 7rem)" }} className=" ml-5 w-9/12 min-h-[12rem]">
+      <div style={{ height: "calc(100vh - 7rem)" }} className=" ml-5 w-[100%] md:w-9/12 min-h-[12rem]">
         {/* api calls to fetch question and categories made inside filterContainer component */}
         <FilterContainer currentPage={currentPage} setTotalQuestions={setTotalQuestions} setCurrentPage={setCurrentPage}/>
         <div
@@ -48,7 +48,7 @@ const Home = () => {
           />
         </div>
       </div>
-      <div className=" w-3/12 m-2">
+      <div className="hidden md:block w-3/12 m-2">
         <p className="font-bold text-3xl mb-5">Categories</p>
         <div className="flex my-2 flex-wrap">
           {categoryLoading && <CategorySkeleton />}

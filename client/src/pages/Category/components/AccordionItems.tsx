@@ -24,7 +24,7 @@ const AccordionItems = ({ name, questions, id, showEdit, editCta,index }: Accord
   
     return (
         <div className="flex">
-            <div className="border rounded-lg shadow-lg p-4 mb-4 mt-4 w-11/12">
+            <div className="border rounded-lg shadow-lg p-4 mb-4 mt-4 w-[100%]">
                 <div id={`accordion-${index}`} className="flex justify-between items-center cursor-pointer" onClick={handleToggle}>
                 <p className="font-semibold text-gray-800">{name?.toLocaleUpperCase()}</p>
                 <p className="text-xl text-gray-600">{isOpen ? "−" : "+"}</p>

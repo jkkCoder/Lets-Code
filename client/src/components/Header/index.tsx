@@ -16,18 +16,18 @@ const Header = () => {
   return (
     <nav className="flex items-center justify-between h-16 bg-orange-500 shadow-md px-4 sm:px-6 lg:px-8">
       <Link to="/" className="flex items-center">
-        <div className="h-10 w-[105px] bg-white flex items-center justify-center rounded-lg ">
-          <img src="/LetsCodeLogo.png" alt="letcode logo" className="h-8 w-auto" />
+        <div className="h-6 md:h-10 w-[65px] md:w-[105px] bg-white flex items-center justify-center rounded-lg ">
+          <img src="/LetsCodeLogo.png" alt="letcode logo" className="h-5 md:h-8 w-auto" />
         </div>
       </Link>
 
       <div className="flex-grow flex items-center justify-center">
-        <div className="flex items-center justify-center">
+        <div className="hidden md:flex items-center justify-center">
           <input
             value={searchInput}
             type="text"
             placeholder="Search Questions or Profile"
-            className="border border-gray-300 h-12 rounded-md pl-4 py-2 px-4 pr-8 focus:outline-none focus:border-blue-500 w-[36rem] rounded-l-full"
+            className="border border-gray-300 h-12 rounded-md pl-4 py-2 px-4 pr-8 focus:outline-none focus:border-blue-500 w-[20rem] lg:w-[36rem] rounded-l-full"
             onFocus={() => setShowSuggestion(true)}
             onChange={(e) => setSearchInput(e.target.value)}
           />
@@ -81,7 +81,7 @@ const Header = () => {
         routeQuestion={routeQuestion}
       />
 
-      <div>
+      <div className="text-xs md:text-sm">
         <Link to="/category" className="ml-4 text-white hover:text-blue-500 transition duration-300 ease-in-out">
           Category
         </Link>

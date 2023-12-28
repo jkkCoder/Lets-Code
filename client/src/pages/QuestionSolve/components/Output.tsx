@@ -28,7 +28,7 @@ const Output = ({onSubmit, submitLoading,codeOutput}:OutputProps) => {
   }
 
   return (
-    <div className='h-1/4 overflow-y-scroll'>
+    <div className='flex h-1/4 overflow-y-scroll'>
       <p className='font-bold text-lg'>Output : </p>
       <div className='p-2'>
         {submitLoading && <p>Executing...</p>}
@@ -56,7 +56,7 @@ const Output = ({onSubmit, submitLoading,codeOutput}:OutputProps) => {
       <div 
         onMouseEnter={() => setShowToolTip(true)}
         onMouseLeave={() => setShowToolTip(false)}
-        className='absolute bottom-2 right-10'>
+        className='relative ml-auto self-end'>
         <button 
           disabled={isDisabled || submitLoading} 
           onClick={onSubmit} 
