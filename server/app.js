@@ -57,7 +57,7 @@ const server = createServer(app)
 // const io = new Server(server);
 const io = new Server(server, {
   cors: {
-    origin: "https://letscode-1.netlify.app", // Replace with your frontend's origin
+    origin: "https://letscode-1.netlify.app", // Replace with your frontend's origins
     methods: ["GET", "POST"],
     allowedHeaders: ["my-custom-header"],
     credentials: true,
